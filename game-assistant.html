@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>게임 도우미 | Wildrift Desk</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body class="app-body">
+  <div class="app-shell">
+    <header class="page-topbar">
+      <a class="brand-mark" href="./index.html">Wildrift Desk</a>
+      <nav class="page-nav">
+        <a class="is-active" href="./game-assistant.html">게임 도우미</a>
+        <a href="./champions.html">챔피언 도감</a>
+      </nav>
+    </header>
+
+    <main class="assistant-layout">
+      <section class="assistant-stage stage-draft">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">STEP 1</p>
+            <h1>픽 단계 분석</h1>
+          </div>
+          <p class="section-note">
+            우리 팀은 라인을 함께 지정하고, 상대 팀은 공개된 챔피언만 채워 넣습니다.
+            전원 픽이 완료되면 5초 뒤 자동으로 인게임 도우미로 넘어갑니다.
+          </p>
+        </div>
+
+        <div class="draft-layout">
+          <section class="draft-column">
+            <div class="board-head">
+              <div>
+                <span class="panel-kicker">ALLY TEAM</span>
+                <h2>우리 팀</h2>
+              </div>
+              <button type="button" class="ghost-button" data-clear="ally">초기화</button>
+            </div>
+            <div id="ally-board" class="ally-board"></div>
+          </section>
+
+          <section class="picker-panel-real">
+            <div class="board-head">
+              <div>
+                <span class="panel-kicker">PICKER</span>
+                <h2>챔피언 선택</h2>
+              </div>
+              <p id="picker-context" class="context-text">슬롯을 먼저 선택하세요.</p>
+            </div>
+
+            <div class="picker-controls">
+              <input id="draft-search" class="search-input" type="search" placeholder="챔피언 검색">
+              <button type="button" class="ghost-button" id="clear-current-slot">현재 슬롯 비우기</button>
+            </div>
+
+            <div class="lane-chip-row" id="draft-lane-filters"></div>
+            <div id="draft-picker-grid" class="draft-picker-grid"></div>
+          </section>
+
+          <section class="draft-column">
+            <div class="board-head">
+              <div>
+                <span class="panel-kicker">ENEMY TEAM</span>
+                <h2>상대 팀</h2>
+              </div>
+              <button type="button" class="ghost-button" data-clear="enemy">초기화</button>
+            </div>
+            <div id="enemy-board" class="enemy-board"></div>
+          </section>
+        </div>
+
+        <div id="draft-status-grid" class="draft-status-grid"></div>
+
+        <div class="draft-bottom">
+          <section class="analysis-card">
+            <div class="board-head">
+              <div>
+                <span class="panel-kicker">READ</span>
+                <h2>조합 해석</h2>
+              </div>
+            </div>
+            <div id="draft-insights" class="stack-list"></div>
+          </section>
+
+          <section class="analysis-card">
+            <div class="board-head">
+              <div>
+                <span class="panel-kicker">RECOMMEND</span>
+                <h2>추천 픽 + 룬 + 스펠</h2>
+              </div>
+            </div>
+            <div id="draft-recommendations" class="recommend-grid"></div>
+          </section>
+        </div>
+
+        <div class="ready-banner-wrap">
+          <div id="draft-ready-banner" class="ready-banner hidden"></div>
+          <button type="button" id="manual-live-enter" class="button secondary hidden">지금 인게임 도우미로 이동</button>
+        </div>
+      </section>
+
+      <section class="assistant-stage stage-live hidden" id="live-stage">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">STEP 2</p>
+            <h1>인게임 도우미</h1>
+          </div>
+          <p class="section-note">
+            양 팀 아이템을 입력하고, 지금 바로 다음으로 갈 아이템과 경계해야 할 상대를 확인하세요.
+          </p>
+        </div>
+
+        <div class="live-layout">
+          <section class="team-panel">
+            <div class="board-head">
+              <div>
+                <span class="panel-kicker">ALLY ITEMS</span>
+                <h2>우리 팀 상태</h2>
+              </div>
+            </div>
+            <div id="ally-live-grid" class="live-team-grid"></div>
+          </section>
+
+          <section class="live-center">
+            <div class="board-head">
+              <div>
+                <span class="panel-kicker">IN-GAME GUIDE</span>
+                <h2>현재 가이드</h2>
+              </div>
+            </div>
+
+            <div class="live-selector">
+              <label class="field-block">
+                <span>기준 챔피언</span>
+                <select id="focus-champion-select"></select>
+              </label>
+            </div>
+
+            <div class="live-summary-grid">
+              <article class="analysis-card">
+                <h3>다음 아이템</h3>
+                <div id="next-item-list" class="item-suggestion-grid"></div>
+              </article>
+              <article class="analysis-card">
+                <h3>지금 조심해야 할 챔피언</h3>
+                <div id="danger-list" class="stack-list"></div>
+              </article>
+              <article class="analysis-card">
+                <h3>지금 압박하기 쉬운 챔피언</h3>
+                <div id="advantage-list" class="stack-list"></div>
+              </article>
+            </div>
+
+            <article class="analysis-card">
+              <h3>챔피언 프로필</h3>
+              <div id="focus-profile" class="profile-panel"></div>
+            </article>
+          </section>
+
+          <section class="team-panel">
+            <div class="board-head">
+              <div>
+                <span class="panel-kicker">ENEMY ITEMS</span>
+                <h2>상대 팀 상태</h2>
+              </div>
+            </div>
+            <div id="enemy-live-grid" class="live-team-grid"></div>
+          </section>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="./data.js"></script>
+  <script src="./game-assistant.js"></script>
+</body>
+</html>

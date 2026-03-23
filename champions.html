@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>챔피언 도감 | Wildrift Desk</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body class="app-body">
+  <div class="app-shell">
+    <header class="page-topbar">
+      <a class="brand-mark" href="./index.html">Wildrift Desk</a>
+      <nav class="page-nav">
+        <a href="./game-assistant.html">게임 도우미</a>
+        <a class="is-active" href="./champions.html">챔피언 도감</a>
+      </nav>
+    </header>
+
+    <main class="champions-page">
+      <section class="section-heading">
+        <div>
+          <p class="eyebrow">CHAMPION ARCHIVE</p>
+          <h1>챔피언 도감</h1>
+        </div>
+        <p class="section-note">
+          챔피언별 역할, 상성, 운영 팁, 추천 빌드 방향을 빠르게 탐색할 수 있도록 분리된 도감 페이지입니다.
+        </p>
+      </section>
+
+      <div class="champions-layout">
+        <aside class="filter-sidebar">
+          <label class="field-block">
+            <span>검색</span>
+            <input id="champion-search" class="search-input" type="search" placeholder="챔피언 이름 검색">
+          </label>
+          <div class="field-block">
+            <span>라인</span>
+            <div id="champion-lane-filters" class="lane-chip-row"></div>
+          </div>
+          <div class="field-block">
+            <span>역할군</span>
+            <div id="champion-role-filters" class="lane-chip-row"></div>
+          </div>
+          <div class="field-block">
+            <span>난이도</span>
+            <div id="champion-difficulty-filters" class="lane-chip-row"></div>
+          </div>
+        </aside>
+
+        <section class="champions-content">
+          <div id="champion-grid" class="champion-grid"></div>
+          <div id="champion-detail" class="champion-detail"></div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script src="./data.js"></script>
+  <script src="./champions.js"></script>
+</body>
+</html>
