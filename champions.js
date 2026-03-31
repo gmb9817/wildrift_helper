@@ -1,3 +1,4 @@
+(function () {
 if (!window.WildriftData) {
   throw new Error("WildriftData failed to load. Check data.js script order.");
 }
@@ -301,3 +302,4 @@ function syncFilterState(containerId, activeValue) {
 function escapeAttr(value) {
   return value.replaceAll("&", "&amp;").replaceAll('"', "&quot;");
 }
+})();

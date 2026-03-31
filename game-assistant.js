@@ -1,3 +1,4 @@
+(function () {
 if (!window.WildriftData) {
   throw new Error("WildriftData failed to load. Check data.js script order.");
 }
@@ -12,13 +13,21 @@ const {
 
 const lanes = ["Baron", "Jungle", "Mid", "Dragon", "Support"];
 
+function createEmptyAllySlots() {
+  return lanes.map((lane) => ({ lane, champion: null, items: [] }));
+}
+
+function createEmptyEnemySlots() {
+  return Array.from({ length: 5 }, () => ({ champion: null, items: [] }));
+}
+
 const state = {
   activeTeam: "ally",
   activeIndex: 0,
   pickerLane: "all",
   search: "",
-  allySlots: lanes.map((lane) => ({ lane, champion: null, items: [] })),
-  enemySlots: Array.from({ length: 5 }, () => ({ champion: null, items: [] })),
+  allySlots: createEmptyAllySlots(),
+  enemySlots: createEmptyEnemySlots(),
   countdown: null,
   countdownLeft: 0,
   focusChampionName: "",
@@ -61,9 +70,9 @@ document.getElementById("clear-current-slot").addEventListener("click", () => {
 document.querySelectorAll("[data-clear]").forEach((button) => {
   button.addEventListener("click", () => {
     if (button.dataset.clear === "ally") {
-      state.allySlots = lanes.map((lane) => ({ lane, champion: null, items: [] }));
+      state.allySlots = createEmptyAllySlots();
     } else {
-      state.enemySlots = Array.from({ length: 5 }, () => ({ champion: null, items: [] }));
+      state.enemySlots = createEmptyEnemySlots();
     }
     stopCountdown();
     renderAll();
@@ -574,7 +583,7 @@ function renderFocusChampionSelect() {
   if (!state.focusChampionName && allyChampions[0]) state.focusChampionName = allyChampions[0].displayName;
   if (!state.profileChampionName && allyChampions[0]) state.profileChampionName = allyChampions[0].displayName;
   focusChampionSelectEl.innerHTML = allyChampions.map((champion) => `<option value="${champion.displayName}">${champion.displayName}</option>`).join("");
-  focusChampionSelectEl.value = state.focusChampionName;
+  if (state.focusChampionName) focusChampionSelectEl.value = state.focusChampionName;
 }
 
 function renderLiveGuide() {
@@ -913,11 +922,13 @@ function matchupScore(a, b, enemyItems = []) {
 }
 
 function getCurrentSlot() {
-  return state.activeTeam === "ally" ? state.allySlots[state.activeIndex] : state.enemySlots[state.activeIndex];
+  return state.activeTeam === "ally"
+    ? state.allySlots[state.activeIndex] || state.allySlots[0]
+    : state.enemySlots[state.activeIndex] || state.enemySlots[0];
 }
 
 function getTargetRecommendationLane() {
-  if (state.activeTeam === "ally") return state.allySlots[state.activeIndex].lane;
+  if (state.activeTeam === "ally") return (state.allySlots[state.activeIndex] || state.allySlots[0]).lane;
   const emptySlot = state.allySlots.find((slot) => !slot.champion);
   return emptySlot ? emptySlot.lane : null;
 }
@@ -967,15 +978,24 @@ function loadState() {
     state.activeIndex = Math.min(Math.max(Number(parsed.activeIndex) || 0, 0), 4);
     state.pickerLane = parsed.pickerLane || "all";
     state.search = parsed.search || "";
-    state.allySlots = (parsed.allySlots || state.allySlots).map((slot, index) => ({
-      lane: slot.lane || lanes[index],
-      champion: slot.champion ? championMap[slot.champion] || null : null,
-      items: Array.isArray(slot.items) ? slot.items.filter((name) => itemMap[name]) : [],
-    }));
-    state.enemySlots = (parsed.enemySlots || state.enemySlots).map((slot) => ({
-      champion: slot.champion ? championMap[slot.champion] || null : null,
-      items: Array.isArray(slot.items) ? slot.items.filter((name) => itemMap[name]) : [],
-    }));
+    const parsedAllySlots = Array.isArray(parsed.allySlots) ? parsed.allySlots : [];
+    const parsedEnemySlots = Array.isArray(parsed.enemySlots) ? parsed.enemySlots : [];
+    state.allySlots = createEmptyAllySlots().map((fallbackSlot, index) => {
+      const slot = parsedAllySlots[index] || {};
+      return {
+        lane: lanes.includes(slot.lane) ? slot.lane : fallbackSlot.lane,
+        champion: slot.champion ? championMap[slot.champion] || null : null,
+        items: Array.isArray(slot.items) ? slot.items.filter((name) => itemMap[name]) : [],
+      };
+    });
+    state.enemySlots = createEmptyEnemySlots().map((fallbackSlot, index) => {
+      const slot = parsedEnemySlots[index] || {};
+      return {
+        champion: slot.champion ? championMap[slot.champion] || null : null,
+        items: Array.isArray(slot.items) ? slot.items.filter((name) => itemMap[name]) : fallbackSlot.items,
+      };
+    });
+    state.activeIndex = Math.min(state.activeIndex, 4);
     state.focusChampionName = parsed.focusChampionName || "";
     state.profileChampionName = parsed.profileChampionName || "";
     if (parsed.liveVisible) liveStageEl.classList.remove("hidden");
@@ -993,3 +1013,4 @@ function placeholderSvg(label) {
 function escapeAttr(value) {
   return value.replaceAll("&", "&amp;").replaceAll('"', "&quot;");
 }
+})();
