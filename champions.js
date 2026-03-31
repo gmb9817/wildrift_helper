@@ -15,21 +15,51 @@ const state = {
   search: "",
   lane: "all",
   role: "all",
+  damage: "all",
   difficulty: "all",
+  sort: "name",
   selected: "Ahri",
 };
 
 const gridEl = document.getElementById("champion-grid");
 const detailEl = document.getElementById("champion-detail");
+const resultsMetaEl = document.getElementById("champion-results-meta");
 
 document.getElementById("champion-search").addEventListener("input", (event) => {
   state.search = event.target.value.trim().toLowerCase();
   render();
 });
 
+document.getElementById("champion-sort").addEventListener("change", (event) => {
+  state.sort = event.target.value;
+  render();
+});
+
+document.getElementById("champion-reset-filters").addEventListener("click", () => {
+  state.search = "";
+  state.lane = "all";
+  state.role = "all";
+  state.damage = "all";
+  state.difficulty = "all";
+  state.sort = "name";
+  document.getElementById("champion-search").value = "";
+  document.getElementById("champion-sort").value = "name";
+  syncFilterState("champion-lane-filters", "all");
+  syncFilterState("champion-role-filters", "all");
+  syncFilterState("champion-difficulty-filters", "all");
+  syncFilterState("champion-damage-filters", "all");
+  render();
+});
+
 renderFilterGroup("champion-lane-filters", [{ id: "all", label: "전체" }, ...Object.entries(laneLabels).map(([id, label]) => ({ id, label }))], "lane");
 renderFilterGroup("champion-role-filters", [{ id: "all", label: "전체" }, ...Object.entries(roleLabels).map(([id, label]) => ({ id, label }))], "role");
 renderFilterGroup("champion-difficulty-filters", [{ id: "all", label: "전체" }, ...Object.entries(difficultyLabels).map(([id, label]) => ({ id, label }))], "difficulty");
+renderFilterGroup("champion-damage-filters", [
+  { id: "all", label: "전체" },
+  { id: "AD", label: "AD" },
+  { id: "AP", label: "AP" },
+  { id: "Mixed", label: "혼합" },
+], "damage");
 
 render();
 
@@ -40,6 +70,7 @@ function renderFilterGroup(containerId, items, type) {
     button.type = "button";
     button.className = `lane-chip${index === 0 ? " active" : ""}`;
     button.textContent = item.label;
+    button.dataset.value = item.id;
     button.addEventListener("click", () => {
       container.querySelectorAll(".lane-chip").forEach((chip) => chip.classList.remove("active"));
       button.classList.add("active");
@@ -52,18 +83,24 @@ function renderFilterGroup(containerId, items, type) {
 
 function render() {
   const filtered = champions.filter((champion) => {
-    const searchMatch = champion.displayName.toLowerCase().includes(state.search);
+    const searchMatch = matchesChampionSearch(champion, state.search);
     const laneMatch = state.lane === "all" || champion.lanes.includes(state.lane);
     const roleMatch = state.role === "all" || champion.roles.includes(state.role);
+    const damageMatch = state.damage === "all" || champion.damageType === state.damage;
     const difficultyMatch = state.difficulty === "all" || champion.difficulty === state.difficulty;
-    return searchMatch && laneMatch && roleMatch && difficultyMatch;
-  });
+    return searchMatch && laneMatch && roleMatch && damageMatch && difficultyMatch;
+  }).sort((a, b) => compareChampions(a, b, state.sort));
 
   if (!filtered.find((champion) => champion.displayName === state.selected) && filtered[0]) {
     state.selected = filtered[0].displayName;
   }
 
-  gridEl.innerHTML = filtered.map((champion) => `
+  resultsMetaEl.innerHTML = `
+    <strong>${filtered.length}명 표시 중</strong>
+    <p>${buildFilterSummary(filtered.length)}</p>
+  `;
+
+  gridEl.innerHTML = filtered.length ? filtered.map((champion) => `
     <button type="button" class="champion-card${champion.displayName === state.selected ? " active" : ""}" data-champion="${escapeAttr(champion.displayName)}">
       <img src="${champion.image}" alt="${champion.displayName}">
       <div class="champion-card-copy">
@@ -75,7 +112,12 @@ function render() {
         </div>
       </div>
     </button>
-  `).join("");
+  `).join("") : `
+    <article class="empty-state">
+      <strong>조건에 맞는 챔피언이 없습니다.</strong>
+      <p>검색어를 줄이거나 라인/역할군/피해 타입 필터를 일부 해제해 보세요.</p>
+    </article>
+  `;
 
   gridEl.querySelectorAll("[data-champion]").forEach((button) => {
     button.addEventListener("click", () => {
@@ -138,6 +180,11 @@ function renderDetail(champion) {
         <ul>${recommendedItems.map((item, index) => `<li><strong>${item.displayName}</strong>: ${describeItemFit(champion, item, index)}</li>`).join("")}</ul>
       </article>
       <article class="profile-block">
+        <h4>추천 상황 / 피해야 할 상황</h4>
+        <p>${champion.whenToPick}</p>
+        <p>${champion.avoidPick}</p>
+      </article>
+      <article class="profile-block">
         <h4>파워 스파이크 / 승리 플랜</h4>
         <p>${champion.powerSpike}</p>
         <p>${champion.winCondition}</p>
@@ -150,6 +197,12 @@ function renderDetail(champion) {
         <h4>한타 / 운영 팁</h4>
         <p>${champion.teamfightTip}</p>
         <p>${champion.objectivePlan}</p>
+      </article>
+      <article class="profile-block">
+        <h4>초반 / 중반 / 후반 플랜</h4>
+        <p>${champion.earlyGamePlan}</p>
+        <p>${champion.midGamePlan}</p>
+        <p>${champion.lateGamePlan}</p>
       </article>
       <article class="profile-block">
         <h4>시너지 / 주의 포인트</h4>
@@ -212,6 +265,37 @@ function describeHardMatchup(a, b) {
   if (b.tags.includes("burst") && (a.roles.includes("Marksman") || a.tags.includes("scaling"))) return "성장 구간이나 얇은 포지션을 노리는 폭딜 압박을 계속 의식해야 합니다.";
   if (b.tags.includes("frontline") && !a.tags.includes("antiTank")) return "정면으로 오래 싸우면 전열을 뚫는 속도가 부족할 수 있습니다.";
   return "교전 각과 시야를 조금만 잘못 줘도 상성 열세가 크게 체감되는 편입니다.";
+}
+
+function matchesChampionSearch(champion, query) {
+  if (!query) return true;
+  const normalized = query.toLowerCase();
+  const compact = normalized.replace(/[^a-z0-9가-힣]/g, "");
+  return champion.searchText.includes(normalized) || champion.searchText.includes(compact);
+}
+
+function compareChampions(a, b, sort) {
+  if (sort === "difficulty") return a.difficultyRank - b.difficultyRank || a.displayName.localeCompare(b.displayName);
+  if (sort === "versatile") return b.versatilityScore - a.versatilityScore || a.displayName.localeCompare(b.displayName);
+  if (sort === "late") return Number(b.tags.includes("scaling")) - Number(a.tags.includes("scaling")) || Number(b.tags.includes("dps")) - Number(a.tags.includes("dps")) || a.displayName.localeCompare(b.displayName);
+  return a.displayName.localeCompare(b.displayName);
+}
+
+function buildFilterSummary(count) {
+  const damageLabels = { AD: "AD", AP: "AP", Mixed: "혼합" };
+  const parts = [];
+  if (state.lane !== "all") parts.push(laneLabels[state.lane]);
+  if (state.role !== "all") parts.push(roleLabels[state.role]);
+  if (state.damage !== "all") parts.push(damageLabels[state.damage] || state.damage);
+  if (state.difficulty !== "all") parts.push(difficultyLabels[state.difficulty]);
+  return parts.length ? `${parts.join(" / ")} 조건으로 ${count}명을 보고 있습니다.` : "전체 챔피언 풀에서 탐색 중입니다.";
+}
+
+function syncFilterState(containerId, activeValue) {
+  const container = document.getElementById(containerId);
+  Array.from(container.querySelectorAll(".lane-chip")).forEach((button) => {
+    button.classList.toggle("active", button.dataset.value === activeValue);
+  });
 }
 
 function escapeAttr(value) {

@@ -187,6 +187,17 @@ const archetypeProfiles = {
 };
 
 const itemData = {
+  "Amaranth's Twinguard": { category: "Tank", summary: "장기전으로 갈수록 전면전 버티기 값을 크게 끌어올립니다.", tags: ["frontline", "survival"] },
+  "Berserker's Greaves": { category: "Boots", summary: "공격 속도 기반 원딜과 온힛 챔피언의 기본 신발입니다.", tags: ["attackSpeed"] },
+  "Blade of the Ruined King": { category: "Fighter", summary: "체력 비중이 높은 상대와 1대1, 추격전에 특히 강합니다.", tags: ["antiTank", "duel"] },
+  "Boots of Dynamism": { category: "Boots", summary: "로밍과 빠른 진입이 중요한 AD 챔피언에게 잘 맞습니다.", tags: ["mobility"] },
+  "Boots of Mana": { category: "Boots", summary: "초반 주문 교환과 마나 운영이 중요한 AP 챔피언용 신발입니다.", tags: ["mana"] },
+  "Cosmic Drive": { category: "Mage", summary: "지속 교전과 스킬 회전율을 동시에 끌어올립니다.", tags: ["haste"] },
+  "Crown of the Shattered Queen": { category: "Mage", summary: "암살자와 급습 조합 상대로 첫 진입을 버티는 데 좋습니다.", tags: ["antiBurst", "survival"] },
+  "Dawnshroud": { category: "Tank", summary: "이니시 탱커가 들어간 뒤 아군 화력을 붙이기 좋습니다.", tags: ["engage", "teamfight"] },
+  "Death's Dance": { category: "Fighter", summary: "난전에서 즉사하지 않고 딜을 계속 이어 가게 해 줍니다.", tags: ["survival", "extendedFight"] },
+  "Dream Maker": { category: "Support", summary: "짧은 교전과 보호 스킬 효율을 함께 끌어올립니다.", tags: ["buff", "peel"] },
+  "Duskblade of Draktharr": { category: "Assassin", summary: "한 번의 폭딜로 킬 각을 만드는 AD 암살자의 대표 코어입니다.", tags: ["burst"] },
   "Infinity Edge": { category: "Marksman", summary: "치명타 기반 캐리의 대표 화력 코어", tags: ["damage"] },
   "Bloodthirster": { category: "Marksman", summary: "흡혈과 안정성을 함께 챙기는 후반 코어", tags: ["survival"] },
   "Runaan's Hurricane": { category: "Marksman", summary: "다수 대상 지속 딜과 라인 클리어 보강", tags: ["teamfight"] },
@@ -197,6 +208,16 @@ const itemData = {
   "Harmonic Echo": { category: "Support", summary: "라인 유지력과 짧은 교전 회복 지원", tags: ["heal"] },
   "Imperial Mandate": { category: "Support", summary: "CC 연계 순간 아군 화력을 증폭", tags: ["pick"] },
   "Black Cleaver": { category: "Fighter", summary: "방어력 감소와 추격 보조", tags: ["antiTank"] },
+  "Gargoyle": { category: "Enchant", summary: "탱커가 중심에서 버티며 시간을 벌어야 할 때 가치가 높습니다.", tags: ["survival", "frontline"] },
+  "Glorious": { category: "Enchant", summary: "짧은 순간 진입 거리와 추노 각을 넓혀 줍니다.", tags: ["engage", "mobility"] },
+  "Gluttonous Greaves": { category: "Boots", summary: "지속 딜과 근접 교환에서 흡혈 기반 안정성을 줍니다.", tags: ["sustain"] },
+  "Horizon Focus": { category: "Mage", summary: "먼 거리 포킹과 장거리 적중 보상을 강화합니다.", tags: ["poke"] },
+  "Infinity Orb": { category: "Mage", summary: "낮은 체력 대상을 마무리하는 AP 폭딜 구간이 강해집니다.", tags: ["burst"] },
+  "Ionian Boots of Lucidity": { category: "Boots", summary: "스킬 회전과 소환사 주문 가치가 중요한 챔피언에게 잘 맞습니다.", tags: ["haste"] },
+  "Knight's Vow": { category: "Support", summary: "특정 캐리를 끝까지 지켜야 하는 판에서 가장 직관적인 보호 선택지입니다.", tags: ["peel"] },
+  "Luden's Echo": { category: "Mage", summary: "라인전과 초중반 포킹/폭딜 템포를 빠르게 올립니다.", tags: ["burst", "poke"] },
+  "Magnetic Blaster": { category: "Marksman", summary: "한 발 먼저 때리는 사거리 우위를 만들어 포지션 싸움을 쉽게 합니다.", tags: ["range"] },
+  "Manamune": { category: "Marksman", summary: "스킬 비중이 높은 원딜과 포킹형 딜러의 마나/중반 화력을 보강합니다.", tags: ["mana", "poke"] },
   "Mortal Reminder": { category: "Marksman", summary: "치감과 관통을 동시에", tags: ["antiHeal", "antiTank"] },
   "Morellonomicon": { category: "Mage", summary: "AP 치감 대응", tags: ["antiHeal"] },
   "Liandry's Torment": { category: "Mage", summary: "탱커 상대로 긴 교전", tags: ["antiTank"] },
@@ -204,7 +225,15 @@ const itemData = {
   "Frozen Heart": { category: "Tank", summary: "공속 기반 AD 억제", tags: ["antiAttackSpeed"] },
   "Randuin's Omen": { category: "Tank", summary: "치명타 조합 상대로 효율", tags: ["antiCrit"] },
   "Thornmail": { category: "Tank", summary: "탱커용 치감", tags: ["antiHeal"] },
+  "Navori Quickblades": { category: "Marksman", summary: "치명타 기반 챔피언의 스킬 회전율과 후반 기대값을 높입니다.", tags: ["crit", "haste"] },
+  "Phantom Dancer": { category: "Marksman", summary: "카이팅과 지속 전투 안정성이 필요한 원딜에게 적합합니다.", tags: ["attackSpeed", "mobility"] },
+  "Protector's Vow": { category: "Support", summary: "짧은 순간 아군 캐리를 지켜야 하는 보호 조합에서 효율적입니다.", tags: ["peel", "shield"] },
+  "Protobelt": { category: "Enchant", summary: "순간 거리 조정이 필요한 진입형 챔피언의 각을 넓혀 줍니다.", tags: ["mobility", "engage"] },
   "Serpent's Fang": { category: "Assassin", summary: "실드 조합 파훼", tags: ["antiShield"] },
+  "Riftmaker": { category: "Mage", summary: "길게 싸우는 AP 챔피언의 유지력과 누적 딜을 보강합니다.", tags: ["extendedFight", "sustain"] },
+  "Rylai's Crystal Scepter": { category: "Mage", summary: "지속 피해 스킬과 장판형 스킬의 구역 장악을 강화합니다.", tags: ["zone", "slow"] },
+  "Serylda's Grudge": { category: "Assassin", summary: "포킹형 AD 챔피언이 후반 관통과 슬로우를 함께 챙길 수 있습니다.", tags: ["poke", "antiTank"] },
+  "Staff of Flowing Water": { category: "Support", summary: "AP 캐리와 장거리 메이지를 함께 키우기 좋은 지원 코어입니다.", tags: ["buff"] },
   "Edge of Night": { category: "Assassin", summary: "중요한 CC 한 번 방어", tags: ["spellShield"] },
   "Stasis": { category: "Enchant", summary: "암살과 다이브 차단", tags: ["survival"] },
   "Quicksilver": { category: "Enchant", summary: "하드 CC 해제", tags: ["cleanse"] },
@@ -214,6 +243,15 @@ const itemData = {
   "Maw of Malmortius": { category: "Defense", summary: "AD 챔피언의 AP 대응", tags: ["antiMagic"] },
   "Mercury's Treads": { category: "Boots", summary: "CC와 AP 압박 대응", tags: ["tenacity"] },
   "Plated Steelcaps": { category: "Boots", summary: "평타 AD 대응", tags: ["armor"] },
+  "Sterak's Gage": { category: "Fighter", summary: "브루저가 들어간 뒤 바로 녹지 않도록 체급을 보강합니다.", tags: ["survival"] },
+  "Sundered Sky": { category: "Fighter", summary: "짧은 강공과 회복을 같이 챙겨 브루저의 교전 효율을 끌어올립니다.", tags: ["burst", "sustain"] },
+  "Terminus": { category: "Marksman", summary: "혼합 피해와 전열 대응이 필요한 후반 구간에서 가치가 높습니다.", tags: ["antiTank"] },
+  "The Collector": { category: "Marksman", summary: "중반 킬 캐치와 스노우볼 타이밍을 더 날카롭게 만들어 줍니다.", tags: ["burst"] },
+  "Veil": { category: "Enchant", summary: "중요한 CC나 긴 사거리 스킬을 한 번 막아야 하는 판에서 좋습니다.", tags: ["spellShield"] },
+  "Warmog's Armor": { category: "Tank", summary: "전투 사이 재정비가 중요한 장기 운영 판에서 탱커 지속력을 올립니다.", tags: ["survival"] },
+  "Wit's End": { category: "Marksman", summary: "AP 압박이 강한 경기에서 온힛 딜러의 생존과 딜을 함께 챙깁니다.", tags: ["antiMagic"] },
+  "Youmuu's Ghostblade": { category: "Assassin", summary: "로밍과 첫 진입 속도가 중요한 AD 챔피언의 대표 코어입니다.", tags: ["mobility", "burst"] },
+  "Zeke's Convergence": { category: "Support", summary: "탱커 서포터가 전투 개시 후 아군 딜을 밀어 주기에 좋습니다.", tags: ["engage", "teamfight"] },
 };
 
 const recommendationRules = [
@@ -233,11 +271,38 @@ function normalizeDamageTag(damageType) {
 }
 
 function assetPath(folder, baseName, extension) {
-  return `./${folder}/${encodeURIComponent(baseName)}.${extension}`;
+  return `./${folder}/${baseName}.${extension}`;
 }
 
 function formatLaneList(lanes) {
   return lanes.map((lane) => laneLabels[lane]).join(" / ");
+}
+
+function normalizeSearchText(value) {
+  return value.toLowerCase().replace(/[^a-z0-9가-힣]/g, "");
+}
+
+function getChampionSearchText(seed, profile, tags) {
+  const tagTexts = tags.map((tag) => tagLabels[tag]).filter(Boolean);
+  const laneTexts = seed.lanes.map((lane) => laneLabels[lane]);
+  const roleTexts = seed.roles.map((role) => roleLabels[role] || role);
+  const parts = [
+    seed.name,
+    normalizeSearchText(seed.name),
+    profile.label,
+    normalizeSearchText(profile.label),
+    profile.summary,
+    normalizeSearchText(profile.summary),
+    ...laneTexts,
+    ...laneTexts.map(normalizeSearchText),
+    ...roleTexts,
+    ...roleTexts.map(normalizeSearchText),
+    ...tagTexts,
+    ...tagTexts.map(normalizeSearchText),
+    seed.damageType,
+    seed.difficulty,
+  ];
+  return parts.join(" ").toLowerCase();
 }
 
 function getRunesForArchetype(archetype) {
@@ -346,14 +411,60 @@ function getObjectivePlan(seed) {
   return "정면 전투를 열기 전에 먼저 라인 상태와 시야 위치를 유리하게 맞춰 두세요.";
 }
 
+function getWhenToPick(seed, tags) {
+  if (tags.includes("antiTank")) return "상대가 탱커 2장 이상이거나 정면 교전을 길게 끌 조합일 때 특히 좋습니다.";
+  if (tags.includes("engage")) return "우리 팀에 선이니시가 비어 있고, 먼저 교전을 열어야 하는 판에서 우선순위가 올라갑니다.";
+  if (tags.includes("peel")) return "아군 원딜이나 성장형 메이지를 지켜야 하는 조합에서 가치가 높습니다.";
+  if (tags.includes("poke")) return "상대가 느리게 들어오고 오브젝트 대치를 오래 끌어야 하는 판에서 강합니다.";
+  if (tags.includes("splitpush")) return "사이드 운영으로 맵을 넓게 쓰고 싶을 때 꺼내기 좋습니다.";
+  return "조합에서 비어 있는 역할을 메우면서 안정적인 밸런스를 만들고 싶을 때 적합합니다.";
+}
+
+function getAvoidPick(seed, tags) {
+  if (!tags.includes("mobility")) return "강제 진입과 긴 사거리 포킹이 동시에 강한 조합 상대로는 진입 전에 체력이 빠질 수 있습니다.";
+  if (tags.includes("burst")) return "확정 CC와 보호형 서포터가 동시에 있는 조합 상대로는 첫 각이 막히기 쉽습니다.";
+  if (tags.includes("scaling")) return "초중반 스노우볼 압박이 강한 판에서는 전성기 도달 전에 흐름이 무너질 수 있습니다.";
+  if (tags.includes("peel")) return "우리 팀에 실제 캐리 축이 약하면 보호 역할의 가치가 덜 살아날 수 있습니다.";
+  return "역할이 겹치는 픽이 이미 많거나, 조합이 너무 한쪽으로 치우친 상태에서는 효율이 줄 수 있습니다.";
+}
+
+function getPhasePlan(seed, tags, phase) {
+  if (phase === "early") {
+    if (seed.lanes.includes("Jungle")) return "초반은 갱킹 자체보다 우선 라인과 첫 오브젝트 타이밍을 연결해 주도권을 만드는 구간입니다.";
+    if (tags.includes("laneBully")) return "초반 웨이브와 체력 교환을 주도해 상대가 먼저 손해를 보게 만드는 것이 핵심입니다.";
+    if (tags.includes("scaling")) return "초반은 큰 이득보다 손실 최소화와 첫 코어 연결에 집중하는 편이 좋습니다.";
+    return "초반은 라인과 시야를 안정적으로 잡아 중반 합류 구간을 유리하게 여는 단계입니다.";
+  }
+  if (phase === "mid") {
+    if (tags.includes("pick")) return "중반은 시야 차이를 이용해 한 명을 먼저 끊고 오브젝트를 연결하는 플레이가 가장 위력적입니다.";
+    if (tags.includes("engage")) return "중반은 전령, 드래곤, 강가 좁은 길에서 먼저 싸움을 여는 것이 중요합니다.";
+    if (tags.includes("splitpush")) return "중반은 사이드 압박과 합류 타이밍 차이로 상대를 흔드는 운영이 좋습니다.";
+    return "중반은 라인 우선권과 오브젝트 합류를 묶어 팀 전체 템포를 끌어올리는 구간입니다.";
+  }
+  if (tags.includes("scaling")) return "후반은 생존이 곧 딜이므로 포지션을 먼저 잡고 긴 전투를 가는 것이 중요합니다.";
+  if (tags.includes("burst")) return "후반은 정면 화력전보다 빈 대상을 빠르게 잘라 전투 인원을 줄이는 판단이 중요합니다.";
+  if (tags.includes("peel")) return "후반은 누구를 지킬지 우선순위를 분명히 정하고 보호 스킬을 아껴 써야 합니다.";
+  return "후반은 오브젝트 앞 시야와 스킬 교환에서 작은 실수가 바로 전투 패배로 이어지기 쉬운 단계입니다.";
+}
+
+function getDifficultyRank(difficulty) {
+  if (difficulty === "Easy") return 1;
+  if (difficulty === "Medium") return 2;
+  return 3;
+}
+
 function normalizeChampion(seed) {
   const profile = archetypeProfiles[seed.archetype];
   const tags = Array.from(new Set([...profile.baseTags, ...seed.tags, normalizeDamageTag(seed.damageType)]));
+  const searchText = getChampionSearchText(seed, profile, tags);
   return {
     ...seed,
     displayName: seed.name,
     image: assetPath("champions", seed.name, "jpg"),
     tags,
+    searchText,
+    difficultyRank: getDifficultyRank(seed.difficulty),
+    versatilityScore: seed.lanes.length + seed.roles.length + (tags.includes("mobility") ? 1 : 0) + (tags.includes("engage") ? 1 : 0),
     profileLabel: profile.label,
     archetypeSummary: profile.summary,
     coreItems: [...profile.coreItems],
@@ -373,6 +484,11 @@ function normalizeChampion(seed) {
     draftValue: `${profile.summary} 역할을 더해 주는 픽입니다.`,
     flavor: `${seed.name}는 ${formatLaneList(seed.lanes)}에서 주로 기용되는 ${profile.label} 계열 챔피언입니다.`,
     tmi: `${seed.name}의 키워드는 ${tags.filter((tag) => tagLabels[tag]).slice(0, 3).map((tag) => tagLabels[tag]).join(", ")}입니다.`,
+    whenToPick: getWhenToPick(seed, tags),
+    avoidPick: getAvoidPick(seed, tags),
+    earlyGamePlan: getPhasePlan(seed, tags, "early"),
+    midGamePlan: getPhasePlan(seed, tags, "mid"),
+    lateGamePlan: getPhasePlan(seed, tags, "late"),
     runes: getRunesForArchetype(seed.archetype),
     spells: getSpellsForChampion(seed),
   };

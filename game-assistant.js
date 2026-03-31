@@ -34,6 +34,7 @@ const pickerContextEl = document.getElementById("picker-context");
 const draftInsightsEl = document.getElementById("draft-insights");
 const draftRecommendationsEl = document.getElementById("draft-recommendations");
 const draftStatusGridEl = document.getElementById("draft-status-grid");
+const draftPriorityStripEl = document.getElementById("draft-priority-strip");
 const draftReadyBannerEl = document.getElementById("draft-ready-banner");
 const manualLiveEnterEl = document.getElementById("manual-live-enter");
 const liveStageEl = document.getElementById("live-stage");
@@ -42,8 +43,10 @@ const enemyLiveGridEl = document.getElementById("enemy-live-grid");
 const nextItemListEl = document.getElementById("next-item-list");
 const dangerListEl = document.getElementById("danger-list");
 const advantageListEl = document.getElementById("advantage-list");
+const counterBuildListEl = document.getElementById("counter-build-list");
 const focusChampionSelectEl = document.getElementById("focus-champion-select");
 const focusProfileEl = document.getElementById("focus-profile");
+const liveOverviewEl = document.getElementById("live-overview");
 
 document.getElementById("draft-search").addEventListener("input", (event) => {
   state.search = event.target.value.trim().toLowerCase();
@@ -92,6 +95,7 @@ function renderAll() {
   renderDraftInsights();
   renderDraftRecommendations();
   renderDraftStatus();
+  renderDraftPriorityStrip();
   syncCountdown();
   renderLiveBoards();
   renderFocusChampionSelect();
@@ -204,12 +208,12 @@ function renderDraftPicker() {
   const current = getCurrentSlot().champion?.displayName;
   const filtered = champions.filter((champion) => {
     const laneMatch = state.pickerLane === "all" || champion.lanes.includes(state.pickerLane);
-    const searchMatch = champion.displayName.toLowerCase().includes(state.search);
+    const searchMatch = matchesChampionSearch(champion, state.search);
     const available = !selected.has(champion.displayName) || current === champion.displayName;
     return laneMatch && searchMatch && available;
   });
 
-  pickerGridEl.innerHTML = filtered.map((champion) => `
+  pickerGridEl.innerHTML = filtered.length ? filtered.map((champion) => `
     <button type="button" class="champion-tile" data-champion="${escapeAttr(champion.displayName)}">
       <img class="tile-avatar" src="${champion.image}" alt="${champion.displayName}">
       <div class="tile-copy">
@@ -220,7 +224,12 @@ function renderDraftPicker() {
         </div>
       </div>
     </button>
-  `).join("");
+  `).join("") : `
+    <article class="empty-state">
+      <strong>표시할 챔피언이 없습니다.</strong>
+      <p>검색어를 줄이거나 라인 필터를 바꿔 보세요.</p>
+    </article>
+  `;
 
   pickerGridEl.querySelectorAll("[data-champion]").forEach((button) => {
     button.addEventListener("click", () => {
@@ -281,10 +290,33 @@ function renderDraftStatus() {
   `;
 }
 
+function renderDraftPriorityStrip() {
+  const allyStats = summarizeTeam(state.allySlots.map((slot) => slot.champion).filter(Boolean));
+  const enemyStats = summarizeTeam(state.enemySlots.map((slot) => slot.champion).filter(Boolean));
+  const targetLane = getTargetRecommendationLane();
+  const chips = [];
+
+  if (targetLane) chips.push({ tone: "neutral", text: `현재 우선 라인: ${laneLabels[targetLane]}` });
+  if (allyStats.frontline === 0) chips.push({ tone: "danger", text: "앞라인 필요" });
+  if (allyStats.engage === 0) chips.push({ tone: "danger", text: "이니시 보강 필요" });
+  if (allyStats.peel === 0 && allyStats.scaling > 0) chips.push({ tone: "neutral", text: "후반 캐리 보호 필요" });
+  if (!allyStats.hasMagic) chips.push({ tone: "neutral", text: "AP 소스 부족" });
+  if (!allyStats.hasPhysical) chips.push({ tone: "neutral", text: "AD 소스 부족" });
+  if (enemyStats.poke >= 2) chips.push({ tone: "info", text: "상대 포킹 강함" });
+  if (enemyStats.engage >= 2) chips.push({ tone: "info", text: "상대 강제 이니시 주의" });
+  if (enemyStats.frontline >= 2) chips.push({ tone: "info", text: "상대 전열 두꺼움" });
+  if (enemyStats.scaling >= 2) chips.push({ tone: "info", text: "상대 후반 가치 높음" });
+
+  draftPriorityStripEl.innerHTML = chips.length
+    ? chips.map((chip) => `<span class="priority-chip ${chip.tone}">${chip.text}</span>`).join("")
+    : `<span class="priority-chip neutral">픽이 채워지면 조합 우선순위를 여기서 바로 읽어 줍니다.</span>`;
+}
+
 function renderDraftRecommendations() {
   const recommendations = getDraftRecommendations();
-  draftRecommendationsEl.innerHTML = recommendations.map((entry) => `
-    <article class="recommend-card">
+  const canApplyRecommendation = state.activeTeam === "ally";
+  draftRecommendationsEl.innerHTML = recommendations.length ? recommendations.map((entry) => `
+    <button type="button" class="recommend-card" data-recommend-pick="${escapeAttr(entry.champion.displayName)}" ${canApplyRecommendation ? "" : "disabled"}>
       <img class="recommend-image" src="${entry.champion.image}" alt="${entry.champion.displayName}">
       <div class="recommend-copy">
         <div class="recommend-head">
@@ -295,6 +327,10 @@ function renderDraftRecommendations() {
           <span class="score-badge">${entry.score}</span>
         </div>
         <div class="pill-row">${entry.reasons.map((reason) => `<span class="meta-pill">${reason}</span>`).join("")}</div>
+        <div class="pill-row">
+          <span class="meta-pill">코어: ${entry.champion.coreItems.slice(0, 2).join(" / ")}</span>
+          <span class="meta-pill">전성기: ${summarizePowerSpike(entry.champion.powerSpike)}</span>
+        </div>
         <div class="stack-row">
           <strong>지금 좋은 이유</strong>
           <p>${entry.pitch}</p>
@@ -308,9 +344,24 @@ function renderDraftRecommendations() {
           <p>${entry.champion.runes.join(" · ")}</p>
           <p>${entry.champion.spells.join(" + ")}</p>
         </div>
+        ${canApplyRecommendation ? `<span class="meta-pill">클릭해서 현재 우리 팀 슬롯에 적용</span>` : `<span class="meta-pill">적 팀 슬롯 편집 중일 때는 추천을 바로 적용하지 않습니다.</span>`}
       </div>
+    </button>
+  `).join("") : `
+    <article class="empty-state">
+      <strong>추천 완료</strong>
+      <p>현재 기준으로 남은 추천 후보가 없습니다. 이미 전원이 선택되었거나, 현재 슬롯이 채워져 있습니다.</p>
     </article>
-  `).join("");
+  `;
+
+  if (!canApplyRecommendation) return;
+
+  draftRecommendationsEl.querySelectorAll("[data-recommend-pick]").forEach((button) => {
+    button.addEventListener("click", () => {
+      setCurrentSlotChampion(championMap[button.dataset.recommendPick]);
+      renderAll();
+    });
+  });
 }
 
 function getDraftRecommendations() {
@@ -530,19 +581,23 @@ function renderLiveGuide() {
   const focus = championMap[state.focusChampionName];
   const profileChampion = championMap[state.profileChampionName] || focus;
   if (!focus) {
+    liveOverviewEl.innerHTML = "";
     nextItemListEl.innerHTML = "";
     dangerListEl.innerHTML = "";
     advantageListEl.innerHTML = "";
+    counterBuildListEl.innerHTML = "";
     focusProfileEl.innerHTML = "";
     return;
   }
 
   const nextItems = getNextItemsFor(focus);
+  renderLiveOverview(focus);
   nextItemListEl.innerHTML = nextItems.length
     ? nextItems.map((item) => `
-      <article class="stack-row">
+      <article class="stack-row action-card">
         <strong>${item.displayName}</strong>
         <p>${item.why}</p>
+        <button type="button" class="ghost-button inline-action" data-add-focus-item="${escapeAttr(item.displayName)}">현재 챔피언에 추가</button>
       </article>
     `).join("")
     : `<article class="stack-row"><strong>기본 빌드 점검</strong><p>핵심 코어가 거의 갖춰졌습니다. 이제는 상대 아이템과 바론/장로 타이밍을 기준으로 방어형 분기를 보세요.</p></article>`;
@@ -556,7 +611,16 @@ function renderLiveGuide() {
   advantageListEl.innerHTML = advantages.length
     ? advantages.map((entry) => `<article class="stack-row"><strong>${entry.name}</strong><p>${entry.reason}</p></article>`).join("")
     : `<article class="stack-row"><strong>압박 타이밍 대기</strong><p>지금은 뚜렷한 상성 우위를 단정하기 어렵습니다. 아이템과 시야 정보가 더 쌓이면 판단이 더 정확해집니다.</p></article>`;
+  counterBuildListEl.innerHTML = buildCounterChecklist(focus, enemySlots)
+    .map((entry) => `<article class="stack-row"><strong>${entry.title}</strong><p>${entry.body}</p></article>`)
+    .join("");
   focusProfileEl.innerHTML = buildProfileMarkup(profileChampion);
+
+  nextItemListEl.querySelectorAll("[data-add-focus-item]").forEach((button) => {
+    button.addEventListener("click", () => {
+      addItemToFocusChampion(button.dataset.addFocusItem);
+    });
+  });
 }
 
 function getNextItemsFor(focus) {
@@ -595,6 +659,36 @@ function getNextItemsFor(focus) {
   });
 
   return suggestions.slice(0, 3);
+}
+
+function renderLiveOverview(focus) {
+  const allyStats = summarizeTeam(state.allySlots.map((slot) => slot.champion).filter(Boolean));
+  const enemySlots = state.enemySlots.filter((slot) => slot.champion);
+  const enemyStats = summarizeTeam(enemySlots.map((slot) => slot.champion));
+  const ownedCount = state.allySlots.find((slot) => slot.champion?.displayName === focus.displayName)?.items.length || 0;
+
+  liveOverviewEl.innerHTML = `
+    <article class="overview-card">
+      <span class="panel-kicker">FOCUS</span>
+      <strong>${focus.displayName}</strong>
+      <p>${focus.profileLabel} / ${focus.damageType} / 현재 아이템 ${ownedCount}개</p>
+    </article>
+    <article class="overview-card">
+      <span class="panel-kicker">ALLY PLAN</span>
+      <strong>${describeCompStyle(allyStats, state.allySlots.filter((slot) => slot.champion).length)}</strong>
+      <p>${focus.winCondition}</p>
+    </article>
+    <article class="overview-card">
+      <span class="panel-kicker">ENEMY READ</span>
+      <strong>${describeCompStyle(enemyStats, enemySlots.length)}</strong>
+      <p>${describeEnemyDraftState(enemySlots.length, enemyStats)}</p>
+    </article>
+    <article class="overview-card">
+      <span class="panel-kicker">POWER WINDOW</span>
+      <strong>${summarizePowerSpike(focus.powerSpike)}</strong>
+      <p>${focus.powerSpike}</p>
+    </article>
+  `;
 }
 
 function getThreatList(focus, enemySlots, favorable) {
@@ -654,6 +748,12 @@ function buildProfileMarkup(champion) {
         <p>${champion.teamfightTip}</p>
       </article>
       <article class="profile-block">
+        <h4>초반 / 중반 / 후반 플랜</h4>
+        <p>${champion.earlyGamePlan}</p>
+        <p>${champion.midGamePlan}</p>
+        <p>${champion.lateGamePlan}</p>
+      </article>
+      <article class="profile-block">
         <h4>시너지 / 주의 포인트</h4>
         <p>${champion.allySynergy}</p>
         <p>${champion.enemyWarning}</p>
@@ -664,6 +764,51 @@ function buildProfileMarkup(champion) {
       </article>
     </div>
   `;
+}
+
+function buildCounterChecklist(focus, enemySlots) {
+  const enemyStats = summarizeTeam(enemySlots.map((slot) => slot.champion));
+  const signals = collectItemSignals(enemySlots);
+  const items = [];
+
+  if (enemyStats.frontline >= 2) {
+    items.push({
+      title: "전열 대응 우선",
+      body: `${getAntiTankItem(focus) || "탱커 대응 아이템"} 쪽을 빨리 보면 정면 전투가 훨씬 편해집니다.`,
+    });
+  }
+  if (enemyStats.sustain >= 2 || signals.antiHealTarget) {
+    items.push({
+      title: "치감 타이밍 체크",
+      body: `${getAntiHealItem(focus) || "치감 아이템"} 가치가 높은 판입니다. 드래곤/바론 전부터 준비하는 편이 좋습니다.`,
+    });
+  }
+  if (enemyStats.engage >= 2 || enemyStats.burst >= 2) {
+    items.push({
+      title: "생존 버튼 확보",
+      body: `${getDefensiveResponseItem(focus, enemyStats) || "생존형 인챈트"}를 우선해 첫 진입을 버틸 수 있게 준비하세요.`,
+    });
+  }
+  if ((enemyStats.tagCounts.cc || 0) >= 2 || signals.cleanseNeed) {
+    items.push({
+      title: "CC 대응 필요",
+      body: `${getCleanseResponseItem(focus) || "CC 해제 수단"}이 있으면 한 번의 실수를 크게 줄일 수 있습니다.`,
+    });
+  }
+  if (!items.length) {
+    items.push({
+      title: "기본 코어 유지",
+      body: "상대 조합이 한쪽으로 크게 치우치지 않았습니다. 지금은 기본 코어 템포를 유지해도 됩니다.",
+    });
+  }
+  return items.slice(0, 4);
+}
+
+function addItemToFocusChampion(itemName) {
+  const slot = state.allySlots.find((entry) => entry.champion?.displayName === state.focusChampionName);
+  if (!slot || !itemMap[itemName] || slot.items.includes(itemName) || slot.items.length >= 6) return;
+  slot.items.push(itemName);
+  renderAll();
 }
 
 function collectItemSignals(enemySlots) {
@@ -775,6 +920,21 @@ function getTargetRecommendationLane() {
   if (state.activeTeam === "ally") return state.allySlots[state.activeIndex].lane;
   const emptySlot = state.allySlots.find((slot) => !slot.champion);
   return emptySlot ? emptySlot.lane : null;
+}
+
+function matchesChampionSearch(champion, query) {
+  if (!query) return true;
+  const normalized = query.toLowerCase();
+  const compact = normalized.replace(/[^a-z0-9가-힣]/g, "");
+  return champion.searchText.includes(normalized) || champion.searchText.includes(compact);
+}
+
+function summarizePowerSpike(text) {
+  if (text.includes("2코어")) return "2코어 이후";
+  if (text.includes("3코어")) return "3코어 전후";
+  if (text.includes("궁극기")) return "궁극기 이후";
+  if (text.includes("초반")) return "초반 주도권";
+  return "첫 코어 전후";
 }
 
 function uniqueTake(items, limit) {

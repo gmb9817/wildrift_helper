@@ -33,6 +33,7 @@
             <span>검색</span>
             <input id="champion-search" class="search-input" type="search" placeholder="챔피언 이름 검색">
           </label>
+          <div id="champion-results-meta" class="filter-summary"></div>
           <div class="field-block">
             <span>라인</span>
             <div id="champion-lane-filters" class="lane-chip-row"></div>
@@ -42,9 +43,23 @@
             <div id="champion-role-filters" class="lane-chip-row"></div>
           </div>
           <div class="field-block">
+            <span>피해 타입</span>
+            <div id="champion-damage-filters" class="lane-chip-row"></div>
+          </div>
+          <div class="field-block">
             <span>난이도</span>
             <div id="champion-difficulty-filters" class="lane-chip-row"></div>
           </div>
+          <label class="field-block">
+            <span>정렬</span>
+            <select id="champion-sort" class="search-input">
+              <option value="name">이름순</option>
+              <option value="difficulty">쉬운 순</option>
+              <option value="versatile">다재다능 순</option>
+              <option value="late">후반 가치 높은 순</option>
+            </select>
+          </label>
+          <button type="button" id="champion-reset-filters" class="ghost-button">필터 초기화</button>
         </aside>
 
         <section class="champions-content">

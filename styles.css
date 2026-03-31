@@ -192,6 +192,38 @@ select {
   gap: 18px;
 }
 
+.landing-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.metric-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.04);
+  padding: 14px;
+  display: grid;
+  gap: 4px;
+}
+
+.metric-card strong {
+  font-size: 1.2rem;
+}
+
+.metric-card span {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.landing-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 20px;
+}
+
 .preview-card {
   border-radius: var(--radius-lg);
   padding: 24px;
@@ -270,6 +302,7 @@ select {
 .draft-layout,
 .draft-bottom,
 .draft-status-grid,
+.priority-strip,
 .live-layout,
 .champions-layout {
   display: grid;
@@ -285,7 +318,12 @@ select {
 }
 
 .draft-status-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.priority-strip {
+  grid-template-columns: repeat(auto-fit, minmax(180px, max-content));
+  gap: 10px;
 }
 
 .live-layout {
@@ -498,6 +536,13 @@ select option {
 
 .recommend-card {
   overflow: hidden;
+  text-align: left;
+  padding: 0;
+}
+
+.recommend-card:disabled {
+  cursor: default;
+  opacity: 0.84;
 }
 
 .recommend-image {
@@ -559,6 +604,36 @@ select option {
   align-items: center;
 }
 
+.priority-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text);
+  font-weight: 600;
+}
+
+.priority-chip.info {
+  border-color: rgba(125, 197, 201, 0.34);
+  background: rgba(125, 197, 201, 0.12);
+  color: #d6f4f6;
+}
+
+.priority-chip.danger {
+  border-color: rgba(255, 143, 134, 0.34);
+  background: rgba(255, 143, 134, 0.12);
+  color: #ffd7d3;
+}
+
+.priority-chip.neutral {
+  border-color: rgba(242, 181, 111, 0.28);
+  background: rgba(242, 181, 111, 0.12);
+  color: #f7dfb8;
+}
+
 .hidden {
   display: none !important;
 }
@@ -568,9 +643,33 @@ select option {
   gap: 18px;
 }
 
+.live-overview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.overview-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.04);
+  padding: 14px;
+  display: grid;
+  gap: 6px;
+}
+
+.overview-card strong {
+  font-size: 1rem;
+}
+
+.overview-card p {
+  margin: 0;
+  color: var(--muted);
+}
+
 .live-summary-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 18px;
 }
 
@@ -598,6 +697,16 @@ select option {
   min-height: 34px;
   padding: 0 12px;
   font-size: 0.84rem;
+}
+
+.inline-action {
+  margin-top: 8px;
+  justify-self: start;
+}
+
+.action-card {
+  display: grid;
+  gap: 6px;
 }
 
 .profile-panel {
@@ -663,6 +772,28 @@ select option {
   align-self: start;
   display: grid;
   gap: 18px;
+  position: sticky;
+  top: 20px;
+}
+
+.filter-summary,
+.empty-state {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.03);
+  padding: 14px;
+}
+
+.filter-summary strong,
+.empty-state strong {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.filter-summary p,
+.empty-state p {
+  margin: 0;
+  color: var(--muted);
 }
 
 .champion-grid {
@@ -676,6 +807,8 @@ select option {
   border-radius: var(--radius-md);
   overflow: hidden;
   cursor: pointer;
+  text-align: left;
+  width: 100%;
 }
 
 .champion-card.active {
@@ -723,9 +856,11 @@ select option {
 
 @media (max-width: 1240px) {
   .landing-hero,
+  .landing-detail-grid,
   .draft-layout,
   .draft-bottom,
   .draft-status-grid,
+  .live-overview-grid,
   .live-layout,
   .champions-layout,
   .champions-content,
@@ -755,6 +890,10 @@ select option {
     max-width: none;
   }
 
+  .landing-metrics {
+    grid-template-columns: 1fr;
+  }
+
   .section-heading,
   .page-topbar,
   .board-head,
@@ -764,5 +903,9 @@ select option {
   .detail-grid {
     grid-template-columns: 1fr;
     display: grid;
+  }
+
+  .filter-sidebar {
+    position: static;
   }
 }
