@@ -8,6 +8,7 @@ const {
   roleLabels,
   difficultyLabels,
   itemMap,
+  tagLabels,
 } = window.WildriftData;
 
 const state = {
@@ -96,6 +97,7 @@ function renderDetail(champion) {
   const recommendedItems = champion.coreItems.slice(0, 3).map((name) => itemMap[name]).filter(Boolean);
   const easyList = getMatchupList(champion, true);
   const hardList = getMatchupList(champion, false);
+  const keyTags = champion.tags.filter((tag) => tagLabels[tag]).slice(0, 4);
 
   detailEl.innerHTML = `
     <div class="champion-detail-header">
@@ -109,6 +111,7 @@ function renderDetail(champion) {
           <span class="meta-pill">${champion.lanes.map((lane) => laneLabels[lane]).join(" / ")}</span>
           <span class="meta-pill">${champion.damageType}</span>
           <span class="meta-pill">${difficultyLabels[champion.difficulty]}</span>
+          ${keyTags.map((tag) => `<span class="meta-pill">${tagLabels[tag]}</span>`).join("")}
         </div>
       </div>
     </div>
@@ -123,15 +126,21 @@ function renderDetail(champion) {
       </article>
       <article class="profile-block">
         <h4>상대하기 쉬운 챔피언</h4>
-        <ul>${easyList.map((name) => `<li>${name}</li>`).join("")}</ul>
+        <ul>${easyList.map((entry) => `<li><strong>${entry.name}</strong>: ${entry.reason}</li>`).join("")}</ul>
       </article>
       <article class="profile-block">
         <h4>상대하기 까다로운 챔피언</h4>
-        <ul>${hardList.map((name) => `<li>${name}</li>`).join("")}</ul>
+        <ul>${hardList.map((entry) => `<li><strong>${entry.name}</strong>: ${entry.reason}</li>`).join("")}</ul>
       </article>
       <article class="profile-block">
         <h4>추천 빌드 방향</h4>
-        <ul>${recommendedItems.map((item) => `<li>${item.displayName}: ${item.summary}</li>`).join("")}</ul>
+        <p>${champion.buildSummary}</p>
+        <ul>${recommendedItems.map((item, index) => `<li><strong>${item.displayName}</strong>: ${describeItemFit(champion, item, index)}</li>`).join("")}</ul>
+      </article>
+      <article class="profile-block">
+        <h4>파워 스파이크 / 승리 플랜</h4>
+        <p>${champion.powerSpike}</p>
+        <p>${champion.winCondition}</p>
       </article>
       <article class="profile-block">
         <h4>라인전 팁</h4>
@@ -140,6 +149,12 @@ function renderDetail(champion) {
       <article class="profile-block">
         <h4>한타 / 운영 팁</h4>
         <p>${champion.teamfightTip}</p>
+        <p>${champion.objectivePlan}</p>
+      </article>
+      <article class="profile-block">
+        <h4>시너지 / 주의 포인트</h4>
+        <p>${champion.allySynergy}</p>
+        <p>${champion.enemyWarning}</p>
       </article>
       <article class="profile-block">
         <h4>TMI</h4>
@@ -152,10 +167,13 @@ function renderDetail(champion) {
 function getMatchupList(champion, favorable) {
   return champions
     .filter((item) => item.displayName !== champion.displayName)
-    .map((item) => ({ name: item.displayName, score: matchupScore(champion, item) }))
+    .map((item) => ({ name: item.displayName, champion: item, score: matchupScore(champion, item) }))
     .sort((a, b) => favorable ? b.score - a.score : a.score - b.score)
     .slice(0, 3)
-    .map((item) => item.name);
+    .map((item) => ({
+      name: item.name,
+      reason: favorable ? describeFavorableMatchup(champion, item.champion) : describeHardMatchup(champion, item.champion),
+    }));
 }
 
 function matchupScore(a, b) {
@@ -163,9 +181,37 @@ function matchupScore(a, b) {
   if (a.tags.includes("peel") && (b.tags.includes("engage") || b.tags.includes("burst"))) score += 10;
   if (a.tags.includes("antiTank") && b.tags.includes("frontline")) score += 10;
   if (a.tags.includes("engage") && b.tags.includes("poke")) score += 7;
+  if (a.tags.includes("antiDash") && b.tags.includes("mobility")) score += 8;
+  if (a.tags.includes("burst") && !b.tags.includes("frontline")) score += 4;
+  if (b.tags.includes("engage") && !a.tags.includes("peel") && !a.tags.includes("frontline")) score -= 7;
+  if (b.tags.includes("burst") && (a.roles.includes("Marksman") || a.tags.includes("scaling"))) score -= 6;
   if (b.tags.includes("poke") && !a.tags.includes("mobility")) score -= 8;
   if (b.tags.includes("frontline") && !a.tags.includes("antiTank")) score -= 6;
   return score;
+}
+
+function describeItemFit(champion, item, index) {
+  if (index === 0) return `초반 핵심 코어로 ${champion.profileLabel} 역할을 가장 안정적으로 열어 줍니다.`;
+  if ((item.tags || []).includes("antiTank")) return "탱커 비중이 높아질수록 체감 가치가 커지는 선택지입니다.";
+  if ((item.tags || []).includes("antiHeal")) return "회복 조합을 상대할 때 우선순위가 빠르게 올라갑니다.";
+  if ((item.tags || []).includes("survival")) return "상대 첫 진입을 한 번 버틴 뒤 다시 딜할 시간을 벌어 줍니다.";
+  return item.summary || `${champion.displayName}의 기본 빌드 흐름에 자주 들어가는 아이템입니다.`;
+}
+
+function describeFavorableMatchup(a, b) {
+  if (a.tags.includes("antiTank") && b.tags.includes("frontline")) return "정면 전투가 길어질수록 전열 압박 효율을 내기 좋습니다.";
+  if (a.tags.includes("engage") && b.tags.includes("poke")) return "대치전을 오래 끌기 전에 강제로 교전을 열 수 있습니다.";
+  if (a.tags.includes("antiDash") && b.tags.includes("mobility")) return "상대 기동력을 제어하며 교전 각을 제한하기 쉽습니다.";
+  if (a.tags.includes("burst") && !b.tags.includes("frontline")) return "빈 순간을 잡으면 빠르게 체력 우위를 만들기 좋습니다.";
+  return "스킬 템포와 포지션 관리만 맞으면 먼저 주도권을 잡기 쉬운 상성입니다.";
+}
+
+function describeHardMatchup(a, b) {
+  if (b.tags.includes("engage") && !a.tags.includes("peel") && !a.tags.includes("frontline")) return "상대가 먼저 교전을 강제하면 받아내는 축이 부족해 까다롭습니다.";
+  if (b.tags.includes("poke") && !a.tags.includes("mobility")) return "사거리 차이로 전투 전 체력이 빠지기 쉬워 라인과 대치전이 불편합니다.";
+  if (b.tags.includes("burst") && (a.roles.includes("Marksman") || a.tags.includes("scaling"))) return "성장 구간이나 얇은 포지션을 노리는 폭딜 압박을 계속 의식해야 합니다.";
+  if (b.tags.includes("frontline") && !a.tags.includes("antiTank")) return "정면으로 오래 싸우면 전열을 뚫는 속도가 부족할 수 있습니다.";
+  return "교전 각과 시야를 조금만 잘못 줘도 상성 열세가 크게 체감되는 편입니다.";
 }
 
 function escapeAttr(value) {

@@ -138,102 +138,254 @@
 ];
 
 
-const archetypeProfiles = {
-  juggernaut: { label: "釉뚮（? / ?嫄곕꽋", baseTags: ["frontline", "dps", "antiMelee"], coreItems: ["Black Cleaver", "Sundered Sky", "Sterak's Gage"], situationalItems: ["Death's Dance", "Maw of Malmortius", "Guardian Angel", "Amaranth's Twinguard"], boots: ["Mercury's Treads", "Plated Steelcaps", "Gluttonous Greaves"], enchants: ["Glorious", "Stasis", "Protobelt"], strengths: ["吏㏃? 援먯쟾蹂대떎 湲?援먯쟾?먯꽌 ?꾨젰??而ㅼ쭛?덈떎.", "?욌씪?몄쓣 ?몄슦硫??ъ씠???뺣컯源뚯? 寃명븷 ???덉뒿?덈떎."], weaknesses: ["?ш굅由??뺣컯怨?移댁씠??議고빀???붾뱾由????덉뒿?덈떎.", "?쒓컙 吏꾩엯蹂대떎??媛곸쓣 ?ㅻ옒 遊먯빞 ?⑸땲??"], laneTip: "?곷? ?듭떖 ?ㅽ궗??鍮좎죱????湲멸쾶 異붽꺽?섎뒗 援먯쟾???ㅺ퀎?섏꽭??", teamfightTip: "?쒗??먯꽌??泥?吏꾩엯蹂대떎 ?곷? 二쇱슂 援곗쨷 ?쒖뼱媛 鍮좎쭊 ???ъ쭊?낆씠 ???덉젙?곸엯?덈떎." },
-  diver: { label: "?ㅼ씠踰?, baseTags: ["engage", "mobility", "burst"], coreItems: ["Trinity Force", "Sundered Sky", "Death's Dance"], situationalItems: ["Maw of Malmortius", "Sterak's Gage", "Guardian Angel", "Black Cleaver"], boots: ["Mercury's Treads", "Plated Steelcaps", "Ionian Boots of Lucidity"], enchants: ["Protobelt", "Stasis", "Glorious"], strengths: ["?먭굅由??듭떖 ?쒕윭瑜?吏곸젒 ?뺣컯?섍린 醫뗭뒿?덈떎.", "珥덉쨷諛?二쇰룄沅뚭낵 ?⑸쪟 ??대컢??媛뺥빀?덈떎."], weaknesses: ["泥?吏꾩엯 ?ㅽ뙣 ??蹂듦? ?숈꽑???뉗뒿?덈떎.", "怨쇳븳 ?좎쭊?낆? ?꾧뎔 ?⑸쪟 ??대컢怨??닿툔?????덉뒿?덈떎."], laneTip: "?쇱씤蹂대떎 ?⑸쪟 媛곸쓣 癒쇱? 怨꾩궛?섍퀬, ?뚭퇋紐?援먯쟾?먯꽌 ?レ옄 ?곗쐞瑜?留뚮뱶????吏묒쨷?섏꽭??", teamfightTip: "?곷? ?듭떖 ?쒕윭???앹〈 ?ㅽ궗???뺤씤????吏꾩엯?섎㈃ ?깃났 ?뺣쪧???ш쾶 ?щ씪媛묐땲??" },
-  warden: { label: "?대땲???깆빱", baseTags: ["frontline", "engage", "cc"], coreItems: ["Sunfire Aegis", "Thornmail", "Amaranth's Twinguard"], situationalItems: ["Force of Nature", "Frozen Heart", "Randuin's Omen", "Warmog's Armor"], boots: ["Mercury's Treads", "Plated Steelcaps", "Ionian Boots of Lucidity"], enchants: ["Gargoyle", "Locket", "Glorious"], strengths: ["議고빀???뺤젙 ?대땲?쒕? 異붽??⑸땲??", "?쒖빞 ?꾪닾? ?ㅻ툕?앺듃 ??援먯쟾??媛뺥빀?덈떎."], weaknesses: ["?ㅼ뼱媛??????꾩냽??遺議깊븯硫?媛移섍? 以꾩뼱??땲??", "?ы궧留??꾩쟻?섎뒗 援щ룄?먯꽌??泥대젰 愿由ш? 以묒슂?⑸땲??"], laneTip: "??踰덉뿉 紐⑤뱺 ?ㅽ궗???곌린蹂대떎 ?듭떖 援곗쨷 ?쒖뼱瑜??꾧뺨 ?뺤젙 援먯쟾??留뚮뱶?몄슂.", teamfightTip: "?좎쭊?낃낵 ?꾩냽 吏꾩엯 以??대뼡 ??븷???꾩슂?쒖? 癒쇱? ?뺥븯怨??쒗?瑜??ъ꽭??" },
-  guardian: { label: "媛?붿뼵 ?깆빱", baseTags: ["frontline", "peel", "cc"], coreItems: ["Sunfire Aegis", "Force of Nature", "Amaranth's Twinguard"], situationalItems: ["Frozen Heart", "Thornmail", "Randuin's Omen", "Warmog's Armor"], boots: ["Mercury's Treads", "Plated Steelcaps", "Ionian Boots of Lucidity"], enchants: ["Locket", "Gargoyle", "Redemption"], strengths: ["?꾧뎔 罹먮━瑜?吏?ㅻŉ 援먯쟾 ?쒓컙???섎┫ ???덉뒿?덈떎.", "?뚯쭊 議고빀 ?곷?濡??덉젙?곸씤 諛쏅뒗 媛곸쓣 留뚮벊?덈떎."], weaknesses: ["?쇱옄 寃뚯엫???곕쑉由щ뒗 ??컻?μ? ??뒿?덈떎.", "諛깅씪?몄씠 ?놁쑝硫?媛移섍? 以꾩뼱??땲??"], laneTip: "?곷???癒쇱? ?ㅼ뼱?ㅻ뒗 ?吏곸엫??諛쏆븘移섎뒗 ?앹쑝濡?援먯쟾???ㅺ퀎?섏꽭??", teamfightTip: "吏꾩엯蹂대떎???꾧뎔 ?듭떖 ?쒕윭媛 ?쒗븷 怨듦컙??留뚮뱶????吏묒쨷?섏꽭??" },
-  assassin: { label: "?붿궡??, baseTags: ["burst", "mobility", "pick"], coreItems: ["Youmuu's Ghostblade", "Duskblade of Draktharr", "Edge of Night"], situationalItems: ["Serpent's Fang", "Serylda's Grudge", "Guardian Angel", "Maw of Malmortius"], boots: ["Boots of Dynamism", "Ionian Boots of Lucidity", "Mercury's Treads"], enchants: ["Stasis", "Protobelt", "Quicksilver"], strengths: ["?ъ씠???쒖빞瑜?癒뱀? ???⑤룆 ?ъ쓣 留뚮뱾湲?醫뗭뒿?덈떎.", "?곷? 臾쇰じ 議고빀??鍮좊Ⅴ寃?遺뺢눼?쒗궗 ???덉뒿?덈떎."], weaknesses: ["?깆빱媛 留롪굅??蹂댄샇 ?섎떒??留롮쑝硫?吏꾩엯 媛移섍? ?⑥뼱吏묐땲??", "泥?肄ㅻ낫 ?ㅽ뙣 ???ъ쭊?낆씠 源뚮떎濡?뒿?덈떎."], laneTip: "??踰덉뿉 ?ъ쓣 ?닿린蹂대떎 泥대젰怨??먮㈇??癒쇱? 鍮쇰뒗 媛곷룄 媛移섍? ?쎈땲??", teamfightTip: "痢〓㈃ 媛곸쓣 癒쇱? ?↔퀬, ?곷? 蹂댄샇 ?ㅽ궗??鍮좎죱????吏꾩엯?섏꽭??" },
-  burstMage: { label: "踰꾩뒪??硫붿씠吏", baseTags: ["burst", "pick", "magic"], coreItems: ["Luden's Echo", "Infinity Orb", "Rabadon's Deathcap"], situationalItems: ["Crown of the Shattered Queen", "Horizon Focus", "Morellonomicon", "Cosmic Drive"], boots: ["Boots of Mana", "Ionian Boots of Lucidity", "Mercury's Treads"], enchants: ["Stasis", "Protobelt", "Veil"], strengths: ["吏㏃? 李쎄뎄?먯꽌 ?뺤젙?곸씤 ?쇳빐瑜?諛???ｊ린 醫뗭뒿?덈떎.", "?쎄낵 ?쒖빞 ?μ븙 ?④퀎?먯꽌 ?뺣컯?μ씠 ?쎈땲??"], weaknesses: ["湲??꾪닾?먯꽌 ?붾젰???딄만 ???덉뒿?덈떎.", "?뚯쭊 議고빀??癒쇱? 臾쇰━硫??ъ??섏씠 臾대꼫吏묐땲??"], laneTip: "?ㅽ궗 ?곸쨷 媛곸쓣 留뚮뱾 ???덈뒗 誘몃땲???⑥씠釉뚯? ?쒖빞瑜?癒쇱? ?뺣낫?섏꽭??", teamfightTip: "?곷????뚯쭊 寃쎈줈蹂대떎???곕━ ????곕씪?????덈뒗 媛곸뿉??癒쇱? 留욎텛??寃껋씠 以묒슂?⑸땲??" },
-  battlemage: { label: "諛고? 硫붿씠吏", baseTags: ["magic", "dps", "zone"], coreItems: ["Liandry's Torment", "Rylai's Crystal Scepter", "Rabadon's Deathcap"], situationalItems: ["Riftmaker", "Cosmic Drive", "Morellonomicon", "Crown of the Shattered Queen"], boots: ["Boots of Mana", "Ionian Boots of Lucidity", "Mercury's Treads"], enchants: ["Stasis", "Protobelt", "Veil"], strengths: ["援먯쟾 ?쒓컙??湲몄닔濡?吏???붾젰???댁븘?⑸땲??", "?깆빱 ?곷?濡쒕룄 ?덉젙?곸씤 湲곗뿬媛 媛?ν빀?덈떎."], weaknesses: ["?ъ??섏씠 遺??⑤㈃ ?붾젰???섏삤湲??꾩뿉 ?섎┫ ???덉뒿?덈떎.", "珥덈컲 ?쇱씤 二쇰룄沅뚯? ?곸꽦 ?곹뼢??留롮씠 諛쏆뒿?덈떎."], laneTip: "吏㏃? ?ㅽ궗 援먰솚蹂대떎 ?⑥씠釉?二쇰룄沅뚭낵 吏꾩엯 媛?李⑤떒??吏묒쨷?섏꽭??", teamfightTip: "?곸씠 吏?섍????섎뒗 醫곸? 怨듦컙??癒쇱? ?먯쑀?섎㈃ ?뺣컯???ш쾶 ?щ씪媛묐땲??" },
-  artillery: { label: "?ы궧 硫붿씠吏", baseTags: ["poke", "zone", "magic"], coreItems: ["Luden's Echo", "Horizon Focus", "Rabadon's Deathcap"], situationalItems: ["Liandry's Torment", "Morellonomicon", "Infinity Orb", "Crown of the Shattered Queen"], boots: ["Boots of Mana", "Ionian Boots of Lucidity", "Mercury's Treads"], enchants: ["Stasis", "Veil", "Protobelt"], strengths: ["?ㅻ툕?앺듃 ?꾩뿉 ?곷? 泥대젰??癒쇱? 源롮븘 援먯쟾 ?곗쐞瑜?留뚮벊?덈떎.", "吏꾩엯 議고빀???묎렐?섍린 ?꾩뿉 ?섏쓣 鍮쇨린 醫뗭뒿?덈떎."], weaknesses: ["吏곸젒 諛쏆븘移섎뒗 ?꾨㈃?꾩? ?쏀빀?덈떎.", "痢〓㈃ 吏꾩엯??痍⑥빟???쒖빞 愿由ш? ?꾩닔?낅땲??"], laneTip: "?쇱씤 ?몄떆蹂대떎???곷?媛 ?ㅽ궗???쇳븯湲??대젮??媛곸쓣 留뚮뱶????吏묒쨷?섏꽭??", teamfightTip: "?꾪닾媛 ?대━湲???泥대젰 ?곗쐞瑜?留뚮뱶??寃껋씠 媛?????꾨Т?낅땲??" },
-  marksman: { label: "?먮뵜", baseTags: ["dps", "scaling", "physical"], coreItems: ["Infinity Edge", "Magnetic Blaster", "Bloodthirster"], situationalItems: ["Mortal Reminder", "Guardian Angel", "Runaan's Hurricane", "Navori Quickblades"], boots: ["Berserker's Greaves", "Gluttonous Greaves", "Mercury's Treads"], enchants: ["Stasis", "Quicksilver", "Glorious"], strengths: ["?꾨컲 ?쒗???吏???붾젰??梨낆엫吏묐땲??", "?욌씪?몄씠 諛쏆퀜以꾩닔濡??붾젰 ?⑥쑉??而ㅼ쭛?덈떎."], weaknesses: ["吏꾩엯 議고빀怨??붿궡?먯뿉寃??ъ????뺣컯???ш쾶 諛쏆뒿?덈떎.", "珥덈컲 ?쇱씤???ㅼ닔???섎꼸?곌? ?쎈땲??"], laneTip: "誘몃땲??留됲?蹂대떎??泥대젰怨??ㅽ렆??吏?ㅻ뒗 ?덉젙?곸씤 ?쇱씤?꾩씠 以묒슂?⑸땲??", teamfightTip: "媛??媛源뚯슫 ?꾪삊遺??李⑤텇??移섎㈃???앹〈 ?ㅽ궗??癒쇱? ?꾨겮?몄슂." },
-  utilityMarksman: { label: "?좏떥 ?먮뵜", baseTags: ["dps", "poke", "cc"], coreItems: ["Infinity Edge", "Runaan's Hurricane", "Mortal Reminder"], situationalItems: ["Magnetic Blaster", "Bloodthirster", "Guardian Angel", "Navori Quickblades"], boots: ["Berserker's Greaves", "Gluttonous Greaves", "Mercury's Treads"], enchants: ["Quicksilver", "Stasis", "Glorious"], strengths: ["?쒖닔 ???몄뿉???좏떥由ы떚? 援먯쟾 媛쒖떆瑜??뷀븷 ???덉뒿?덈떎.", "?쇱씤?꾧낵 以묐컲 援먯쟾?먯꽌 湲고쉶 李쎌텧 ?λ젰??醫뗭뒿?덈떎."], weaknesses: ["?쒖닔 ?섏씠?쇱틦由щ낫????湲곕?媛믪씠 ??쓣 ???덉뒿?덈떎.", "?ㅽ궗 ?곸쨷???곕씪 泥닿컧 ?깅뒫 李⑥씠媛 ?쎈땲??"], laneTip: "?쇱씤 ?곗쐞蹂대떎 ?ㅽ궗 ?곸쨷怨??⑥씠釉?而⑦듃濡ㅻ줈 癒쇱? 怨듦컙???≪쑝?몄슂.", teamfightTip: "吏곸젒 媛곸쓣 ?닿린蹂대떎, ?꾧뎔怨??숈떆???ㅽ궗??寃뱀퀜 留욎텛??履쎌씠 ???덉젙?곸엯?덈떎." },
-  pokeMarksman: { label: "?ы궧 ?먮뵜", baseTags: ["poke", "dps", "physical"], coreItems: ["Manamune", "Serylda's Grudge", "Infinity Edge"], situationalItems: ["Mortal Reminder", "Runaan's Hurricane", "Guardian Angel", "Bloodthirster"], boots: ["Ionian Boots of Lucidity", "Berserker's Greaves", "Mercury's Treads"], enchants: ["Stasis", "Quicksilver", "Glorious"], strengths: ["?꾪닾媛 ?대━湲??꾩뿉 泥대젰??鍮쇰뒗 ???뱁솕?⑸땲??", "吏꾩엯 ???뺣컯怨??ъ??붾떇 媛뺤젣?μ씠 醫뗭뒿?덈떎."], weaknesses: ["?뺣㈃ ?κ린???붾젰? ?섏씠?쇱틦由щ낫????쓣 ???덉뒿?덈떎.", "?곸쨷瑜좎뿉 ?곕씪 湲곕?媛믪씠 ?ш쾶 ?щ씪吏묐땲??"], laneTip: "媛뺥븳 ??대컢???ㅺ린 ?꾧퉴吏??臾대━???꾨㈃?꾨낫??泥대젰 援먰솚 ?꾩쟻??吏묒쨷?섏꽭??", teamfightTip: "?ㅻ툕?앺듃 ??援щ룄?먯꽌 癒쇱? 泥대젰??源롮븘 援먯쟾 議곌굔??諛붽씀??寃껋씠 ?듭떖?낅땲??" },
-  hypercarry: { label: "?섏씠?쇱틦由?, baseTags: ["dps", "scaling", "antiTank"], coreItems: ["Infinity Edge", "Runaan's Hurricane", "Bloodthirster"], situationalItems: ["Mortal Reminder", "Guardian Angel", "Phantom Dancer", "Terminus"], boots: ["Berserker's Greaves", "Gluttonous Greaves", "Mercury's Treads"], enchants: ["Quicksilver", "Stasis", "Glorious"], strengths: ["寃뚯엫??湲몄뼱吏덉닔濡??밸━ 議곌굔???좊챸?댁쭛?덈떎.", "?욌씪?몄씠 ?덉쑝硫???컻?곸씤 ??뚯씠???붾젰???낅땲??"], weaknesses: ["珥덉쨷諛??뺣컯怨??쒖빞媛 遺議깊븯硫??깆옣 援ш컙???붾뱾由쎈땲??", "蹂댄샇媛 ?놁쑝硫?吏꾩엯 議고빀 ??묒씠 ?대졄?듬땲??"], laneTip: "?쇱씤???먰빐瑜?以꾩씠硫?泥???肄붿뼱 ??대컢源뚯? ?덉쟾?섍쾶 ?곌껐?섎뒗 ??吏묒쨷?섏꽭??", teamfightTip: "?앹〈湲곌? ?덈떎硫?理쒕?????쾶 ?곌퀬, ???듭떖 ?꾪삊??鍮좎쭏 ?뚭퉴吏 ??媛곸쓣 醫곹? ?≪쑝?몄슂." },
-  skirmisher: { label: "?ㅼ빱誘몄뀛", baseTags: ["dps", "mobility", "duelist"], coreItems: ["Blade of the Ruined King", "Trinity Force", "Death's Dance"], situationalItems: ["Wit's End", "Guardian Angel", "Sterak's Gage", "Maw of Malmortius"], boots: ["Gluttonous Greaves", "Mercury's Treads", "Plated Steelcaps"], enchants: ["Stasis", "Protobelt", "Glorious"], strengths: ["1?1怨??뚭퇋紐?援먯쟾?먯꽌 ?꾨젰???믪뒿?덈떎.", "痢〓㈃ ?뺣컯怨?吏꾩엯 ???뺣━媛 ?곗뼱?⑸땲??"], weaknesses: ["?뺣㈃ 5?5?먯꽌 吏꾩엯 ??대컢??源뚮떎濡?뒿?덈떎.", "媛뺥븳 援곗쨷 ?쒖뼱 ?곌퀎??痍⑥빟?⑸땲??"], laneTip: "臾대━???ъ씤蹂대떎 吏㏃? 援먰솚 ?꾩쟻怨???대컢 ?몄???吏묒쨷?섏꽭??", teamfightTip: "吏곸젒 ?뺣㈃???щ뒗 ?????媛곸씠????踰덉㎏ ?뚮룞 吏꾩엯?쇰줈 媛移섍? 洹밸??붾맗?덈떎." },
-  skirmishMarksman: { label: "洹쇱젒???먮뵜", baseTags: ["dps", "mobility", "burst"], coreItems: ["Infinity Edge", "Bloodthirster", "Phantom Dancer"], situationalItems: ["Mortal Reminder", "Guardian Angel", "Navori Quickblades", "The Collector"], boots: ["Berserker's Greaves", "Gluttonous Greaves", "Mercury's Treads"], enchants: ["Stasis", "Quicksilver", "Protobelt"], strengths: ["吏꾩엯 ????뵜怨??곗냽 援먯쟾??媛뺥빀?덈떎.", "?뺤떎??援먯쟾 媛곸뿉??湲곕?媛믪씠 ?쎈땲??"], weaknesses: ["?꾪닾 媛곸씠 ?닿툔?섎㈃ ?ш굅由ш? 吏㏃븘 ?먰빐媛 ?쎈땲??", "援곗쨷 ?쒖뼱??留ㅼ슦 誘쇨컧?⑸땲??"], laneTip: "?쒗룷?곗? ??대컢??留욎텣 吏㏃? ??뵜 援먰솚??諛섎났??二쇰룄沅뚯쓣 ?≪쑝?몄슂.", teamfightTip: "?곷? 二쇱슂 CC媛 鍮좎쭊 ???ㅼ뼱媛??罹먮━?μ씠 ?쒕?濡??섏샃?덈떎." },
-  enchanter: { label: "?몄콌??, baseTags: ["peel", "sustain", "buff"], coreItems: ["Ardent Censer", "Staff of Flowing Water", "Harmonic Echo"], situationalItems: ["Imperial Mandate", "Redemption", "Dream Maker", "Protector's Vow"], boots: ["Ionian Boots of Lucidity", "Mercury's Treads", "Boots of Mana"], enchants: ["Redemption", "Locket", "Veil"], strengths: ["?꾧뎔 罹먮━????湲곕?媛믪쓣 ?ш쾶 ?뚯뼱?щ┰?덈떎.", "?ы궧怨??κ린?꾩뿉??泥대젰 ?곗쐞瑜??좎??섍린 醫뗭뒿?덈떎."], weaknesses: ["吏곸젒 ?욎쓣 ?닿린??紐몄씠 ?쏀빀?덈떎.", "?쒖빞媛 諛由щ㈃ ?ъ????뺣컯???ы빀?덈떎."], laneTip: "?쇱씤?꾩? 臾대━??援먰솚蹂대떎 ?ㅽ궗 援먰솚 ?꾩쟻怨?泥대젰 ?좎???吏묒쨷?섏꽭??", teamfightTip: "?꾧뎔 ?듭떖 ?쒕윭媛 ?쒗븷 ?쒓컙??1珥???踰뚯뼱以?ㅻ뒗 媛먭컖?쇰줈 ?ㅽ궗??諛곕텇?섏꽭??" },
-  catcher: { label: "罹먯쿂", baseTags: ["pick", "cc", "roam"], coreItems: ["Imperial Mandate", "Protector's Vow", "Zeke's Convergence"], situationalItems: ["Knight's Vow", "Dawnshroud", "Locket", "Redemption"], boots: ["Ionian Boots of Lucidity", "Mercury's Treads", "Plated Steelcaps"], enchants: ["Glorious", "Locket", "Redemption"], strengths: ["?쒖빞 癒쇱? 癒뱀? 吏??뿉???ш컖??留뚮뱾湲?醫뗭뒿?덈떎.", "濡쒕컢怨????뚮젅?대줈 ?먮쫫???꾪솚?????덉뒿?덈떎."], weaknesses: ["?뺣㈃ ?섏떥?留?諛섎났?섎㈃ 媛移섍? 以꾩뼱??땲??", "?ㅽ궗 ?뺥솗?꾩? ?쒖빞 ?μ븙??以묒슂?⑸땲??"], laneTip: "?쇱씤??臾띠뿬 ?덇린蹂대떎 癒쇱? ?吏곸뿬 ?섏쟻 ?곗쐞瑜?留뚮뱶??洹몃┝???먯＜ 蹂댁꽭??", teamfightTip: "?쒗? ?꾩껜瑜??닿린蹂대떎 ?듭떖 ?섎굹瑜??뚯뼱?대뒗 ?앹쑝濡??꾪닾瑜??쒖옉?섏꽭??" },
-  specialist: { label: "?ㅽ럹?쒕━?ㅽ듃", baseTags: ["poke", "zone", "scaling"], coreItems: ["Liandry's Torment", "Rylai's Crystal Scepter", "Cosmic Drive"], situationalItems: ["Morellonomicon", "Crown of the Shattered Queen", "Rabadon's Deathcap", "Horizon Focus"], boots: ["Boots of Mana", "Ionian Boots of Lucidity", "Mercury's Treads"], enchants: ["Stasis", "Glorious", "Veil"], strengths: ["?쇰컲?곸씤 ?쒗? ?몄쓽 ?낇듅???꾩옣 ?댁쁺??媛뺤젣?⑸땲??", "?곷?媛 ?듭닕?섏? ?딆쑝硫?泥닿컧 ?뺣컯???쎈땲??"], weaknesses: ["議고빀 ?댄빐?꾧? 遺議깊븯硫??쒖슜 ??씠 醫곸븘吏????덉뒿?덈떎.", "?뺤꽍?곸씤 ?욌씪??蹂댄샇媛 遺議깊븷 ???덉뒿?덈떎."], laneTip: "?곷?媛 ?レ뼱?섎뒗 吏?뺢낵 ?숈꽑??癒쇱? 留뚮뱾??寃뚯엫 ?띾룄瑜?鍮꾪듃????吏묒쨷?섏꽭??", teamfightTip: "?뺣㈃ ?밸?蹂대떎 吏???μ븙怨?寃쎈줈 李⑤떒?쇰줈 ?곷? ?먮떒??瑗ъ씠寃?留뚮뱶??寃껋씠 媛뺤젏?낅땲??" },
-  marksmanAssassin: { label: "?섏씠釉뚮━???먮뵜", baseTags: ["burst", "mobility", "physical"], coreItems: ["Youmuu's Ghostblade", "The Collector", "Infinity Edge"], situationalItems: ["Mortal Reminder", "Guardian Angel", "Magnetic Blaster", "Serpent's Fang"], boots: ["Boots of Dynamism", "Berserker's Greaves", "Mercury's Treads"], enchants: ["Stasis", "Quicksilver", "Protobelt"], strengths: ["?쇱씤 ?곗쐞? ?ъ씠???뺣컯???숈떆???몃┫ ???덉뒿?덈떎.", "臾쇰じ 議고빀 ?곷?濡?鍮좊Ⅴ寃??쒗룷瑜??뚯뼱?щ┰?덈떎."], weaknesses: ["?뺥넻 ?먮뵜蹂대떎 ?뺣㈃ 吏???붾젰??遺議깊븷 ???덉뒿?덈떎.", "?쒖빞媛 ?놁쑝硫?吏꾩엯 ?먮떒???대젮?뚯쭛?덈떎."], laneTip: "?쇱씤???곗쐞瑜??뺣낫????癒쇱? ?吏곸뿬 留??꾩뿭???뺣컯??留뚮뱾??蹂댁꽭??", teamfightTip: "?꾩쟾???꾩뿴 ?ъ??섎낫???녾컖?먯꽌 吏㏐쾶 吏꾩엯?섎뒗 援щ룄媛 醫뗭뒿?덈떎." },
-  marksmanFighter: { label: "釉뚮（????먮뵜", baseTags: ["burst", "durable", "physical"], coreItems: ["Youmuu's Ghostblade", "Black Cleaver", "Bloodthirster"], situationalItems: ["Guardian Angel", "Maw of Malmortius", "Serylda's Grudge", "Death's Dance"], boots: ["Gluttonous Greaves", "Mercury's Treads", "Plated Steelcaps"], enchants: ["Stasis", "Glorious", "Protobelt"], strengths: ["洹쇱쨷嫄곕━ 援먯쟾?먯꽌 踰꾪떚硫???뵜???닿린 醫뗭뒿?덈떎.", "?뺢? 援먯쟾怨??ㅻ끂?곕낵 援ш컙??媛뺥빀?덈떎."], weaknesses: ["?ш굅由?湲?議고빀 ?곷?濡쒕뒗 吏꾩엯 媛곸씠 以묒슂?⑸땲??", "?꾨컲 ?쒖닔 罹먮━?μ? ?꾪넻 ?먮뵜蹂대떎 ??쓣 ???덉뒿?덈떎."], laneTip: "媛곸씠 蹂댁씠吏 ?딆쑝硫?臾대━?섍쾶 ?섏? 留먭퀬, 醫곸? 怨듦컙 援먯쟾???좊룄?섏꽭??", teamfightTip: "?곷? ?듭떖 ?쒕윭? 嫄곕━瑜?醫곹엳湲??꾩뿉??怨쇳븯寃??욎쑝濡??섍?吏 ?딅뒗 寃껋씠 以묒슂?⑸땲??" },
+const laneLabels = { Baron: "바론", Jungle: "정글", Mid: "미드", Dragon: "드래곤", Support: "서포트" };
+const roleLabels = { Fighter: "전사", Tank: "탱커", Mage: "메이지", Assassin: "암살자", Marksman: "원딜", Support: "서포터", Enchanter: "인챈터", Catcher: "캐처", Specialist: "스페셜리스트" };
+const difficultyLabels = { Easy: "쉬움", Medium: "보통", Hard: "어려움" };
+const tagLabels = {
+  engage: "이니시",
+  peel: "보호",
+  poke: "포킹",
+  burst: "폭딜",
+  dps: "지속 딜",
+  sustain: "유지력",
+  scaling: "후반 성장",
+  mobility: "기동력",
+  pick: "픽 메이킹",
+  frontline: "전열",
+  antiTank: "탱커 대응",
+  antiDash: "대시 억제",
+  zone: "구역 장악",
+  cc: "CC",
+  laneBully: "라인 압박",
+  duelist: "1대1",
+  splitpush: "사이드 운영",
+  reset: "리셋",
+  range: "사거리",
+  durable: "버티기",
 };
 
+const archetypeProfiles = {
+  juggernaut: { label: "브루저 / 저거너트", summary: "긴 교전 압박형 전열", baseTags: ["frontline", "dps", "antiMelee"], coreItems: ["Black Cleaver", "Sundered Sky", "Sterak's Gage"], situationalItems: ["Death's Dance", "Maw of Malmortius", "Guardian Angel", "Amaranth's Twinguard"], boots: ["Mercury's Treads", "Plated Steelcaps", "Gluttonous Greaves"], enchants: ["Glorious", "Stasis", "Protobelt"] },
+  diver: { label: "다이버", summary: "후방 압박용 진입형", baseTags: ["engage", "mobility", "burst"], coreItems: ["Trinity Force", "Sundered Sky", "Death's Dance"], situationalItems: ["Black Cleaver", "Maw of Malmortius", "Sterak's Gage", "Guardian Angel"], boots: ["Mercury's Treads", "Plated Steelcaps", "Ionian Boots of Lucidity"], enchants: ["Protobelt", "Stasis", "Glorious"] },
+  warden: { label: "이니시 탱커", summary: "교전 개시 특화 탱커", baseTags: ["frontline", "engage", "cc"], coreItems: ["Sunfire Aegis", "Thornmail", "Amaranth's Twinguard"], situationalItems: ["Force of Nature", "Frozen Heart", "Randuin's Omen", "Warmog's Armor"], boots: ["Mercury's Treads", "Plated Steelcaps", "Ionian Boots of Lucidity"], enchants: ["Gargoyle", "Locket", "Glorious"] },
+  guardian: { label: "보호형 탱커", summary: "받아치기와 캐리 보호", baseTags: ["frontline", "peel", "cc"], coreItems: ["Sunfire Aegis", "Force of Nature", "Amaranth's Twinguard"], situationalItems: ["Frozen Heart", "Thornmail", "Randuin's Omen", "Warmog's Armor"], boots: ["Mercury's Treads", "Plated Steelcaps", "Ionian Boots of Lucidity"], enchants: ["Locket", "Gargoyle", "Redemption"] },
+  assassin: { label: "암살자", summary: "단숨에 하나를 지우는 폭딜형", baseTags: ["burst", "mobility", "pick"], coreItems: ["Youmuu's Ghostblade", "Duskblade of Draktharr", "Edge of Night"], situationalItems: ["Serpent's Fang", "Serylda's Grudge", "Guardian Angel", "Maw of Malmortius"], boots: ["Boots of Dynamism", "Ionian Boots of Lucidity", "Mercury's Treads"], enchants: ["Stasis", "Protobelt", "Quicksilver"] },
+  burstMage: { label: "버스트 메이지", summary: "짧은 콤보와 픽 메이킹", baseTags: ["burst", "pick", "magic"], coreItems: ["Luden's Echo", "Infinity Orb", "Rabadon's Deathcap"], situationalItems: ["Crown of the Shattered Queen", "Horizon Focus", "Morellonomicon", "Cosmic Drive"], boots: ["Boots of Mana", "Ionian Boots of Lucidity", "Mercury's Treads"], enchants: ["Stasis", "Protobelt", "Veil"] },
+  battlemage: { label: "전투형 메이지", summary: "지속 마법 피해와 구역 장악", baseTags: ["magic", "dps", "zone"], coreItems: ["Liandry's Torment", "Rylai's Crystal Scepter", "Rabadon's Deathcap"], situationalItems: ["Riftmaker", "Cosmic Drive", "Morellonomicon", "Crown of the Shattered Queen"], boots: ["Boots of Mana", "Ionian Boots of Lucidity", "Mercury's Treads"], enchants: ["Stasis", "Protobelt", "Veil"] },
+  artillery: { label: "포킹 메이지", summary: "먼 거리 견제와 대치전 장악", baseTags: ["poke", "zone", "magic"], coreItems: ["Luden's Echo", "Horizon Focus", "Rabadon's Deathcap"], situationalItems: ["Liandry's Torment", "Morellonomicon", "Infinity Orb", "Crown of the Shattered Queen"], boots: ["Boots of Mana", "Ionian Boots of Lucidity", "Mercury's Treads"], enchants: ["Stasis", "Veil", "Protobelt"] },
+  marksman: { label: "원딜", summary: "정면 화력의 기본 축", baseTags: ["dps", "scaling", "physical"], coreItems: ["Infinity Edge", "Magnetic Blaster", "Bloodthirster"], situationalItems: ["Mortal Reminder", "Guardian Angel", "Runaan's Hurricane", "Navori Quickblades"], boots: ["Berserker's Greaves", "Gluttonous Greaves", "Mercury's Treads"], enchants: ["Stasis", "Quicksilver", "Glorious"] },
+  utilityMarksman: { label: "유틸 원딜", summary: "딜과 유틸을 겸한 원거리 캐리", baseTags: ["dps", "poke", "cc"], coreItems: ["Infinity Edge", "Runaan's Hurricane", "Mortal Reminder"], situationalItems: ["Magnetic Blaster", "Bloodthirster", "Guardian Angel", "Navori Quickblades"], boots: ["Berserker's Greaves", "Gluttonous Greaves", "Mercury's Treads"], enchants: ["Quicksilver", "Stasis", "Glorious"] },
+  pokeMarksman: { label: "포킹 원딜", summary: "전투 전 체력 우위 설계", baseTags: ["poke", "dps", "physical"], coreItems: ["Manamune", "Serylda's Grudge", "Infinity Edge"], situationalItems: ["Mortal Reminder", "Runaan's Hurricane", "Guardian Angel", "Bloodthirster"], boots: ["Ionian Boots of Lucidity", "Berserker's Greaves", "Mercury's Treads"], enchants: ["Stasis", "Quicksilver", "Glorious"] },
+  hypercarry: { label: "하이퍼캐리", summary: "후반 정면 딜 최상급", baseTags: ["dps", "scaling", "antiTank"], coreItems: ["Infinity Edge", "Runaan's Hurricane", "Bloodthirster"], situationalItems: ["Mortal Reminder", "Guardian Angel", "Phantom Dancer", "Terminus"], boots: ["Berserker's Greaves", "Gluttonous Greaves", "Mercury's Treads"], enchants: ["Quicksilver", "Stasis", "Glorious"] },
+  skirmisher: { label: "스커미셔", summary: "소규모 교전과 측면 압박형", baseTags: ["dps", "mobility", "duelist"], coreItems: ["Blade of the Ruined King", "Trinity Force", "Death's Dance"], situationalItems: ["Wit's End", "Guardian Angel", "Sterak's Gage", "Maw of Malmortius"], boots: ["Gluttonous Greaves", "Mercury's Treads", "Plated Steelcaps"], enchants: ["Stasis", "Protobelt", "Glorious"] },
+  skirmishMarksman: { label: "근접 교전형 원딜", summary: "짧은 난전 폭발력형", baseTags: ["dps", "mobility", "burst"], coreItems: ["Infinity Edge", "Bloodthirster", "Phantom Dancer"], situationalItems: ["Mortal Reminder", "Guardian Angel", "Navori Quickblades", "The Collector"], boots: ["Berserker's Greaves", "Gluttonous Greaves", "Mercury's Treads"], enchants: ["Stasis", "Quicksilver", "Protobelt"] },
+  enchanter: { label: "인챈터", summary: "회복과 보호 중심 지원형", baseTags: ["peel", "sustain", "buff"], coreItems: ["Ardent Censer", "Staff of Flowing Water", "Harmonic Echo"], situationalItems: ["Imperial Mandate", "Redemption", "Dream Maker", "Protector's Vow"], boots: ["Ionian Boots of Lucidity", "Mercury's Treads", "Boots of Mana"], enchants: ["Redemption", "Locket", "Veil"] },
+  catcher: { label: "캐처", summary: "한 명을 잡아 수적 우위 창출", baseTags: ["pick", "cc", "roam"], coreItems: ["Imperial Mandate", "Protector's Vow", "Zeke's Convergence"], situationalItems: ["Knight's Vow", "Dawnshroud", "Locket", "Redemption"], boots: ["Ionian Boots of Lucidity", "Mercury's Treads", "Plated Steelcaps"], enchants: ["Glorious", "Locket", "Redemption"] },
+  specialist: { label: "스페셜리스트", summary: "비정형 운영과 판 흔들기", baseTags: ["poke", "zone", "scaling"], coreItems: ["Liandry's Torment", "Rylai's Crystal Scepter", "Cosmic Drive"], situationalItems: ["Morellonomicon", "Crown of the Shattered Queen", "Rabadon's Deathcap", "Horizon Focus"], boots: ["Boots of Mana", "Ionian Boots of Lucidity", "Mercury's Treads"], enchants: ["Stasis", "Glorious", "Veil"] },
+  marksmanAssassin: { label: "하이브리드 원딜", summary: "사거리와 암살각을 함께 노림", baseTags: ["burst", "mobility", "physical"], coreItems: ["Youmuu's Ghostblade", "The Collector", "Infinity Edge"], situationalItems: ["Mortal Reminder", "Guardian Angel", "Magnetic Blaster", "Serpent's Fang"], boots: ["Boots of Dynamism", "Berserker's Greaves", "Mercury's Treads"], enchants: ["Stasis", "Quicksilver", "Protobelt"] },
+  marksmanFighter: { label: "브루저형 원딜", summary: "근중거리에서 버티며 딜", baseTags: ["burst", "durable", "physical"], coreItems: ["Youmuu's Ghostblade", "Black Cleaver", "Bloodthirster"], situationalItems: ["Guardian Angel", "Maw of Malmortius", "Serylda's Grudge", "Death's Dance"], boots: ["Gluttonous Greaves", "Mercury's Treads", "Plated Steelcaps"], enchants: ["Stasis", "Glorious", "Protobelt"] },
+};
 
 const itemData = {
-  "Ardent Censer": { category: "Support", summary: "怨듦꺽 ?띾룄 湲곕컲 罹먮━瑜?媛뺥솕?섎뒗 ????몄콌???꾩씠?쒖엯?덈떎." },
-  "Black Cleaver": { category: "Fighter", summary: "諛⑹뼱?μ씠 ?볦씤 ?꾩뿴 ?곷?濡?釉뚮（?????湲곕?媛믪쓣 ?믪엯?덈떎." },
-  "Blade of the Ruined King": { category: "Fighter", summary: "泥대젰 ?믪? ?꾩뿴怨?1?1 援щ룄??媛뺥븳 ????꾩씠?쒖엯?덈떎." },
-  "Bloodthirster": { category: "Marksman", summary: "?쒓낵 ?≫삁???④퍡 梨숆꺼 ?쒗? ?덉젙?깆쓣 蹂댁셿?⑸땲??" },
-  "Boots of Dynamism": { category: "Boots", summary: "?붿궡?먯? 濡쒕㉧媛 ?쒗룷瑜??щ━湲?醫뗭? 湲곕룞???좊컻?낅땲??" },
-  "Boots of Mana": { category: "Boots", summary: "珥덉쨷諛?二쇰Ц ?쒓낵 留덈굹 ?댁쁺???뺣뒗 AP ?좊컻?낅땲??" },
-  "Berserker's Greaves": { category: "Boots", summary: "?됲? 湲곕컲 ?쒕윭?먭쾶 媛??吏곴??곸씤 怨듦꺽 ?띾룄 ?좊컻?낅땲??" },
-  "Chempunk Chainsword": { category: "Fighter", summary: "AD 湲곕컲 釉뚮（?媛 移섏쑀 媛먯냼瑜?梨숆만 ???⑥쑉?곸엯?덈떎." },
-  "Cosmic Drive": { category: "Mage", summary: "吏㏃? 荑⑦??꾧낵 湲곕룞?깆씠 以묒슂??AP 梨뷀뵾?몄뿉 ??留욎뒿?덈떎." },
-  "Crown of the Shattered Queen": { category: "Mage", summary: "?뚯쭊怨??붿궡 ?뺣컯??媛뺥븳 議고빀 ?곷?濡??앹〈?μ쓣 蹂댁셿?⑸땲??" },
-  "Dawnshroud": { category: "Tank", summary: "?대땲?쒗삎 ?쒗룷?곌? 援먯쟾 媛쒖떆 ???꾩냽 ?붾젰??遺숈씠湲?醫뗭뒿?덈떎." },
-  "Death's Dance": { category: "Fighter", summary: "AD 釉뚮（?媛 ?쒓컙 ??뵜??踰꾪떚硫??몄슦湲?醫뗭뒿?덈떎." },
-  "Dream Maker": { category: "Support", summary: "?몄콌?곌? 援먯쟾怨?蹂댄샇 ?묒そ??遺?쒕읇寃?蹂댁“?댁쨳?덈떎." },
-  "Duskblade of Draktharr": { category: "Assassin", summary: "?뺤떎??留덈Т由ъ? ?쒓컙 ??뵜???꾩슂??AD ?붿궡?먯슜 肄붿뼱?낅땲??" },
-  "Edge of Night": { category: "Assassin", summary: "吏꾩엯 ?꾩뿉 ?듭떖 ?쒖뼱湲곕? ??踰?留됱븘二쇱뼱 ?붿궡 ?깃났瑜좎쓣 ?믪엯?덈떎." },
-  "Force of Nature": { category: "Tank", summary: "AP ?쇳빐媛 留롮? 議고빀 ?곷?濡???쒖쟻??留덈쾿 ????좏깮吏?낅땲??" },
-  "Frozen Heart": { category: "Tank", summary: "怨듦꺽 ?띾룄 湲곕컲 議고빀怨?AD 鍮꾩쨷???믪? ???곷?濡?媛뺥빀?덈떎." },
-  "Gargoyle": { category: "Enchant", summary: "?깆빱媛 ?쒗? 以묒떖?먯꽌 ?ㅻ옒 踰꾪떚怨??띠쓣 ??醫뗭? ?몄콌?몄엯?덈떎." },
-  "Glorious": { category: "Enchant", summary: "援먯쟾 媛쒖떆? 異붾끂 媛곸쓣 ?ш쾶 ?볧?二쇰뒗 ?몄콌?몄엯?덈떎." },
-  "Gluttonous Greaves": { category: "Boots", summary: "吏??援먯쟾????? 梨뷀뵾?몄뿉寃??≫삁 湲곕컲 ?덉젙?깆쓣 ?뷀빀?덈떎." },
-  "Guardian Angel": { category: "Defense", summary: "?꾨컲 援먯쟾?먯꽌 ??踰덉쓽 ?ㅼ닔瑜?蹂듦뎄?????덈뒗 ?덉쟾?μ튂?낅땲??" },
-  "Harmonic Echo": { category: "Support", summary: "?쇱씤 ?좎??κ낵 ?뚭퇋紐?援먯쟾 ?뚮났???숈떆??吏?먰빀?덈떎." },
-  "Horizon Focus": { category: "Mage", summary: "以묒옣嫄곕━ ?ы궧怨????ㅽ궗??蹂댁긽媛믪쓣 ?믪뿬以띾땲??" },
-  "Imperial Mandate": { category: "Support", summary: "CC ?곌퀎媛 ?뺤떎???쒗룷?곌? ? ?붾젰??利앺룺?쒗궎湲?醫뗭뒿?덈떎." },
-  "Infinity Edge": { category: "Marksman", summary: "移섎챸? 鍮뚮뱶??湲곕낯???섎뒗 ??뵜 肄붿뼱 ?꾩씠?쒖엯?덈떎." },
-  "Infinity Orb": { category: "Mage", summary: "留덈Т由???뵜??以묒슂??AP 梨뷀뵾?몄쓽 ???뺣쪧???뚯뼱?щ┰?덈떎." },
-  "Ionian Boots of Lucidity": { category: "Boots", summary: "?ㅽ궗 ?뚯쟾?⑥씠 以묒슂???쒗룷?곗? 罹먯뒪?곗뿉寃??⑥쑉?곸엯?덈떎." },
-  "Knight's Vow": { category: "Support", summary: "?뱀젙 罹먮━瑜?蹂댄샇?댁빞 ?????쒗룷?곌? 媛??吏곴??곸쑝濡??좏깮?????덉뒿?덈떎." },
-  "Liandry's Torment": { category: "Mage", summary: "?깆빱? 泥대젰 留롮? 議고빀 ?곷?濡?吏???쇳빐瑜?媛뺥솕?⑸땲??" },
-  "Locket": { category: "Enchant", summary: "愿묒뿭 ??뵜怨??ㅼ씠釉뚮? ??踰?踰꾪뀲??????醫뗭? ? 蹂댄샇 ?몄콌?몄엯?덈떎." },
-  "Luden's Echo": { category: "Mage", summary: "?쇱씤?꾧낵 泥?援먯쟾?먯꽌 ??컻?곸씤 二쇰Ц ?쇳빐瑜??쒓났?⑸땲??" },
-  "Magnetic Blaster": { category: "Marksman", summary: "?ш굅由щ? ?쒖슜???좏?? ?ъ????뺣컯???꾩?以띾땲??" },
-  "Maw of Malmortius": { category: "Defense", summary: "AD ?쒕윭媛 AP 踰꾩뒪?몃? 踰꾪뀲???????덉젙?곸엯?덈떎." },
-  "Mercury's Treads": { category: "Boots", summary: "援곗쨷 ?쒖뼱? AP ?뺣컯???숈떆??以꾩씪 ???덈뒗 湲곕낯 ?좏깮吏?낅땲??" },
-  "Morellonomicon": { category: "Mage", summary: "AP 梨뷀뵾?몄씠 移섏쑀 媛먯냼瑜?梨숆만 ??媛???덉젙?곸엯?덈떎." },
-  "Mortal Reminder": { category: "Marksman", summary: "移섏쑀 媛먯냼? 諛⑹뼱 愿?듭쓣 ?④퍡 梨숆꺼 ?꾩뿴 ?뺣컯源뚯? 蹂댁셿?⑸땲??" },
-  "Navori Quickblades": { category: "Marksman", summary: "?ㅽ궗 ?ъ궗?⑹씠 以묒슂??移섎챸? ?먮뵜???꾨컲 罹먮━?μ쓣 ?믪엯?덈떎." },
-  "Phantom Dancer": { category: "Marksman", summary: "移댁씠?낃낵 吏???꾪닾 ?덉젙?깆씠 ?꾩슂???먮뵜?먭쾶 ?곹빀?⑸땲??" },
-  "Plated Steelcaps": { category: "Boots", summary: "?됲? 湲곕컲 AD 議고빀 ?곷?濡?媛??吏곴??곸씤 諛⑹뼱 ?좊컻?낅땲??" },
-  "Protector's Vow": { category: "Support", summary: "?꾧뎔 ?쒕윭瑜?蹂댄샇?댁빞 ?섎뒗 ?깆빱 ?쒗룷?곗쓽 湲곕낯 ?좏깮吏?낅땲??" },
-  "Protobelt": { category: "Enchant", summary: "吏㏃? 吏꾩엯 嫄곕━??媛곷룄 議곗젅???꾩슂??梨뷀뵾?몄뿉寃???留욎뒿?덈떎." },
-  "Quicksilver": { category: "Enchant", summary: "?섎뱶 CC??嫄몃━硫?寃뚯엫???앸굹??梨뷀뵾?몄뿉寃?媛??以묒슂?⑸땲??" },
-  "Rabadon's Deathcap": { category: "Mage", summary: "AP 梨뷀뵾?몄쓽 ?쒖닔 ?붾젰 怨좎젏??梨낆엫吏?????肄붿뼱?낅땲??" },
-  "Randuin's Omen": { category: "Tank", summary: "移섎챸?? ?됲? 鍮꾩쨷???믪? ?곸쓣 ?곷?????媛뺥빀?덈떎." },
-  "Redemption": { category: "Enchant", summary: "硫由ъ꽌??援먯쟾 湲곗뿬? ?뚮났???뷀븷 ???덈뒗 ?좏떥 ?몄콌?몄엯?덈떎." },
-  "Riftmaker": { category: "Mage", summary: "吏㏃? ??뵜蹂대떎 吏???붾젰??以묒슂??AP 梨뷀뵾?몄뿉寃???留욎뒿?덈떎." },
-  "Runaan's Hurricane": { category: "Marksman", summary: "?ㅼ닔 ???吏???붾젰???꾩슂???먮뵜?먭쾶 留ㅼ슦 醫뗭뒿?덈떎." },
-  "Rylai's Crystal Scepter": { category: "Mage", summary: "吏???쇳빐??愿묒뿭 ?ㅽ궗怨?議고빀??異붾끂? 吏???μ븙??媛뺥솕?⑸땲??" },
-  "Serpent's Fang": { category: "Assassin", summary: "?ㅻ뱶媛 留롮? 議고빀??鍮좊Ⅴ寃?臾대꼫?⑤┫ ???⑥쑉?곸엯?덈떎." },
-  "Serylda's Grudge": { category: "Assassin", summary: "?ы궧怨??먮젮吏??④낵源뚯? ?몃┫ ???덈뒗 愿???꾩씠?쒖엯?덈떎." },
-  "Staff of Flowing Water": { category: "Support", summary: "AP 罹먮━? ?좏떥 議고빀??媛뺥솕?섎뒗 ?몄콌??肄붿뼱?낅땲??" },
-  "Stasis": { category: "Enchant", summary: "?ㅼ씠釉뚯? ?붿궡, 沅곴레湲??곌퀎瑜???踰??딆뼱?대뒗 媛??媛뺥븳 ?몄콌?몄엯?덈떎." },
-  "Sterak's Gage": { category: "Fighter", summary: "洹쇱젒 ?쒕윭媛 吏꾩엯 ???곗?吏 ?딅룄濡?踰꾪?紐⑹씠 ?섏뼱以띾땲??" },
-  "Sundered Sky": { category: "Fighter", summary: "吏㏃? ??뵜怨??좎??μ쓣 紐⑤몢 梨숆린?ㅻ뒗 AD 釉뚮（??먭쾶 醫뗭뒿?덈떎." },
-  "Sunfire Aegis": { category: "Tank", summary: "?깆빱??湲곕낯 ?꾪닾?κ낵 ?⑥씠釉?泥섎━ ?λ젰???щ젮二쇰뒗 ???肄붿뼱?낅땲??" },
-  "Terminus": { category: "Marksman", summary: "?섏씠釉뚮━??諛??⑦옕 ?쒕윭媛 ?꾩뿴???뱀씠????媛뺥빀?덈떎." },
-  "The Collector": { category: "Marksman", summary: "以묐컲 ??뵜怨?泥섑삎 援ш컙??媛뺥솕???쒗룷瑜??щ┰?덈떎." },
-  "Thornmail": { category: "Tank", summary: "?됲? 湲곕컲 議고빀怨??뚮났???꾩뿴 ?곷?濡??숈떆??媛移섍? ?쎈땲??" },
-  "Trinity Force": { category: "Fighter", summary: "湲곕낯湲?援먰솚??諛섎났?섎뒗 釉뚮（?? ?ㅼ빱誘몄뀛??留뚮뒫 肄붿뼱?낅땲??" },
-  "Veil": { category: "Enchant", summary: "以묒슂??CC???ы궧??誘몃━ 留됱븘?대뒗 蹂댄샇 ?몄콌?몄엯?덈떎." },
-  "Warmog's Armor": { category: "Tank", summary: "泥대젰 湲곕컲 ?깆빱媛 援먯쟾 ???ъ젙鍮꾨? 諛섎났?섍린 醫뗭뒿?덈떎." },
-  "Wit's End": { category: "Marksman", summary: "AP ?뺣컯??媛뺥븷 ???⑦옕 ?쒕윭媛 ?쒓낵 留덉?瑜?媛숈씠 梨숆만 ???덉뒿?덈떎." },
-  "Youmuu's Ghostblade": { category: "Assassin", summary: "濡쒕컢怨?泥?吏꾩엯 ?띾룄媛 以묒슂??AD 梨뷀뵾?몄쓽 ???肄붿뼱?낅땲??" },
-  "Zeke's Convergence": { category: "Support", summary: "?깆빱 ?쒗룷?곌? 援먯쟾 媛쒖떆? ?꾧뎔 ??利앺룺???④퍡 ?몃┫ ??醫뗭뒿?덈떎." }
+  "Infinity Edge": { category: "Marksman", summary: "치명타 기반 캐리의 대표 화력 코어", tags: ["damage"] },
+  "Bloodthirster": { category: "Marksman", summary: "흡혈과 안정성을 함께 챙기는 후반 코어", tags: ["survival"] },
+  "Runaan's Hurricane": { category: "Marksman", summary: "다수 대상 지속 딜과 라인 클리어 보강", tags: ["teamfight"] },
+  "Trinity Force": { category: "Fighter", summary: "짧은 교환과 추격을 동시에 강화", tags: ["burst"] },
+  "Rabadon's Deathcap": { category: "Mage", summary: "순수 AP 화력을 가장 크게 끌어올림", tags: ["damage"] },
+  "Sunfire Aegis": { category: "Tank", summary: "탱커의 기본 전면전 가치와 라인 정리 보강", tags: ["frontline"] },
+  "Ardent Censer": { category: "Support", summary: "공속 기반 캐리 보조에 최적화", tags: ["buff"] },
+  "Harmonic Echo": { category: "Support", summary: "라인 유지력과 짧은 교전 회복 지원", tags: ["heal"] },
+  "Imperial Mandate": { category: "Support", summary: "CC 연계 순간 아군 화력을 증폭", tags: ["pick"] },
+  "Black Cleaver": { category: "Fighter", summary: "방어력 감소와 추격 보조", tags: ["antiTank"] },
+  "Mortal Reminder": { category: "Marksman", summary: "치감과 관통을 동시에", tags: ["antiHeal", "antiTank"] },
+  "Morellonomicon": { category: "Mage", summary: "AP 치감 대응", tags: ["antiHeal"] },
+  "Liandry's Torment": { category: "Mage", summary: "탱커 상대로 긴 교전", tags: ["antiTank"] },
+  "Force of Nature": { category: "Tank", summary: "강한 AP 대응용 MR", tags: ["antiMagic"] },
+  "Frozen Heart": { category: "Tank", summary: "공속 기반 AD 억제", tags: ["antiAttackSpeed"] },
+  "Randuin's Omen": { category: "Tank", summary: "치명타 조합 상대로 효율", tags: ["antiCrit"] },
+  "Thornmail": { category: "Tank", summary: "탱커용 치감", tags: ["antiHeal"] },
+  "Serpent's Fang": { category: "Assassin", summary: "실드 조합 파훼", tags: ["antiShield"] },
+  "Edge of Night": { category: "Assassin", summary: "중요한 CC 한 번 방어", tags: ["spellShield"] },
+  "Stasis": { category: "Enchant", summary: "암살과 다이브 차단", tags: ["survival"] },
+  "Quicksilver": { category: "Enchant", summary: "하드 CC 해제", tags: ["cleanse"] },
+  "Locket": { category: "Enchant", summary: "광역 보호", tags: ["shield"] },
+  "Redemption": { category: "Enchant", summary: "원거리 회복 지원", tags: ["heal"] },
+  "Guardian Angel": { category: "Defense", summary: "후반 안전장치", tags: ["survival"] },
+  "Maw of Malmortius": { category: "Defense", summary: "AD 챔피언의 AP 대응", tags: ["antiMagic"] },
+  "Mercury's Treads": { category: "Boots", summary: "CC와 AP 압박 대응", tags: ["tenacity"] },
+  "Plated Steelcaps": { category: "Boots", summary: "평타 AD 대응", tags: ["armor"] },
 };
 
+const recommendationRules = [
+  { candidate: "antiTank", enemy: "frontline", score: 12, text: "상대 전열 대응" },
+  { candidate: "peel", enemy: "engage", score: 10, text: "상대 돌진 억제" },
+  { candidate: "peel", enemy: "burst", score: 8, text: "아군 캐리 보호" },
+  { candidate: "engage", enemy: "poke", score: 10, text: "포킹 조합 강제 진입" },
+  { candidate: "pick", enemy: "scaling", score: 7, text: "중반 픽 메이킹" },
+  { candidate: "antiDash", enemy: "mobility", score: 9, text: "기동성 높은 적 상대로 유효" },
+  { candidate: "sustain", enemy: "poke", score: 6, text: "포킹 복구 가능" },
+];
 
-const laneLabels = { Baron: "諛붾줎", Jungle: "?뺢?", Mid: "誘몃뱶", Dragon: "?쒕옒怨?, Support: "?쒗룷?? };
-const roleLabels = { Fighter: "?꾩궗", Tank: "?깆빱", Mage: "硫붿씠吏", Assassin: "?붿궡??, Marksman: "?먮뵜", Support: "?쒗룷??, Enchanter: "?몄콌??, Catcher: "罹먯쿂", Specialist: "?ㅽ럹?쒕━?ㅽ듃" };
-const difficultyLabels = { Easy: "?ъ?", Medium: "蹂댄넻", Hard: "?대젮?" };
+function normalizeDamageTag(damageType) {
+  if (damageType === "AP") return "magic";
+  if (damageType === "AD") return "physical";
+  return "mixed";
+}
 
+function assetPath(folder, baseName, extension) {
+  return `./${folder}/${encodeURIComponent(baseName)}.${extension}`;
+}
 
+function formatLaneList(lanes) {
+  return lanes.map((lane) => laneLabels[lane]).join(" / ");
+}
+
+function getRunesForArchetype(archetype) {
+  const map = {
+    juggernaut: ["정복자", "잔혹", "최후의 일격", "불굴"],
+    diver: ["정복자", "승전보", "거인 사냥꾼", "전략가"],
+    warden: ["여진", "약점 노출", "충성심", "개척자"],
+    guardian: ["여진", "약점 노출", "뼈 방패", "개척자"],
+    assassin: ["감전", "돌발 일격", "사냥의 증표", "천상의 몸놀림"],
+    burstMage: ["감전", "약점 노출", "최후의 일격", "마나순환 팔찌"],
+    battlemage: ["정복자", "침착", "거인 사냥꾼", "마나순환 팔찌"],
+    artillery: ["소환: 에어리", "약점 노출", "사냥의 증표", "마나순환 팔찌"],
+    marksman: ["치명적 속도", "잔혹", "거인 사냥꾼", "흡혈의 맛"],
+    utilityMarksman: ["치명적 속도", "약점 노출", "거인 사냥꾼", "영감"],
+    pokeMarksman: ["정복자", "잔혹", "거인 사냥꾼", "영감"],
+    hypercarry: ["치명적 속도", "잔혹", "거인 사냥꾼", "흡혈의 맛"],
+    skirmisher: ["정복자", "승전보", "최후의 일격", "천상의 몸놀림"],
+    skirmishMarksman: ["정복자", "잔혹", "거인 사냥꾼", "흡혈의 맛"],
+    enchanter: ["소환: 에어리", "약점 노출", "충성심", "마나순환 팔찌"],
+    catcher: ["빙결 강화", "약점 노출", "충성심", "개척자"],
+    specialist: ["소환: 에어리", "약점 노출", "거인 사냥꾼", "영감"],
+    marksmanAssassin: ["감전", "잔혹", "사냥의 증표", "천상의 몸놀림"],
+    marksmanFighter: ["정복자", "승전보", "최후의 일격", "흡혈의 맛"],
+  };
+  return map[archetype] || ["정복자", "잔혹", "거인 사냥꾼", "영감"];
+}
+
+function getSpellsForChampion(seed) {
+  if (seed.lanes.includes("Jungle")) return ["강타", "점멸"];
+  if (seed.roles.includes("Support")) return ["점멸", "점화"];
+  if (seed.tags.includes("burst") || seed.tags.includes("pick")) return ["점멸", "점화"];
+  return ["점멸", "보호막"];
+}
+
+function getStrengths(tags) {
+  const strengths = [];
+  if (tags.includes("frontline")) strengths.push("정면 전투에서 먼저 자리를 차지하기 좋습니다.");
+  if (tags.includes("engage")) strengths.push("전투 개시 타이밍을 직접 만들 수 있습니다.");
+  if (tags.includes("peel")) strengths.push("우리 캐리를 지키며 전투 시간을 늘리는 데 강합니다.");
+  if (tags.includes("poke")) strengths.push("오브젝트 전 체력 차이를 만드는 데 능합니다.");
+  if (tags.includes("antiTank")) strengths.push("탱커와 브루저 비중이 높은 조합 상대로 가치가 올라갑니다.");
+  if (tags.includes("scaling")) strengths.push("시간이 갈수록 승리 조건이 분명해집니다.");
+  return strengths.slice(0, 3);
+}
+
+function getWeaknesses(tags) {
+  const weaknesses = [];
+  if (!tags.includes("mobility")) weaknesses.push("시야가 비는 구간에서 먼저 물리면 대응이 어렵습니다.");
+  if (!tags.includes("frontline")) weaknesses.push("정면으로 받아내는 역할은 다른 아군에게 맡겨야 합니다.");
+  if (tags.includes("burst")) weaknesses.push("첫 교전 스킬이 비면 전투 기대값이 크게 떨어질 수 있습니다.");
+  if (tags.includes("scaling")) weaknesses.push("초중반 템포를 빼앗기면 전성기 도달이 늦어집니다.");
+  if (tags.includes("poke")) weaknesses.push("강제 진입 조합 상대로 거리 관리가 필수입니다.");
+  return weaknesses.slice(0, 3);
+}
+
+function getLaneTip(seed) {
+  if (seed.tags.includes("laneBully")) return "초반 웨이브와 체력 교환을 먼저 잡고, 상대가 CS를 포기하게 만드는 식으로 압박하세요.";
+  if (seed.tags.includes("scaling")) return "라인 이득보다 손실을 줄이는 쪽이 중요하며, 첫 코어까지 안전하게 연결해야 합니다.";
+  if (seed.tags.includes("poke")) return "스킬 한 번보다 상대가 앞으로 나오기 싫은 라인 상태를 만드는 데 집중하세요.";
+  if (seed.lanes.includes("Jungle")) return "갱킹 각보다 오브젝트 타이밍과 우선 라인 연결을 같이 보면서 템포를 만들어야 합니다.";
+  return "짧은 교환에서 얻는 이득과 합류 타이밍을 함께 계산하는 운영이 좋습니다.";
+}
+
+function getTeamfightTip(seed) {
+  if (seed.tags.includes("peel")) return "누굴 잡을지보다 우리 캐리를 누가 노리는지 먼저 보고 스킬을 남겨 두는 것이 중요합니다.";
+  if (seed.tags.includes("engage")) return "상대 핵심 CC와 점멸 유무를 확인한 뒤 한 번에 교전을 여는 쪽이 좋습니다.";
+  if (seed.tags.includes("poke")) return "전투가 열리기 전에 체력을 빼 두는 것이 가장 큰 역할입니다.";
+  if (seed.tags.includes("burst")) return "정면 지속 딜보다 순간적으로 빈 대상을 확실히 지우는 판단이 중요합니다.";
+  return "가장 가까운 안전한 대상부터 처리하면서 살아남는 시간을 길게 가져가세요.";
+}
+
+function getPowerSpike(seed) {
+  if (seed.tags.includes("laneBully")) return "라인 주도권과 첫 합류 타이밍이 가장 날카로운 전성기입니다.";
+  if (seed.tags.includes("scaling")) return "2코어 이후 체감이 오르고 3코어 전후가 핵심 전성기입니다.";
+  if (seed.tags.includes("engage")) return "궁극기 해금 후 첫 오브젝트 교전부터 영향력이 커집니다.";
+  return "첫 코어 완성 직후부터 챔피언의 본색이 드러나는 편입니다.";
+}
+
+function getWinCondition(seed) {
+  if (seed.tags.includes("splitpush")) return "사이드 라인 압박으로 상대를 갈라 놓고, 빈 공간에서 이득을 굴리는 것이 핵심입니다.";
+  if (seed.tags.includes("pick")) return "오브젝트 전에 한 명을 먼저 끊어 숫자 우위를 만드는 것이 가장 확실한 승리 플랜입니다.";
+  if (seed.tags.includes("frontline")) return "먼저 공간을 먹고 정면 전투를 길게 끌수록 가치가 커집니다.";
+  if (seed.tags.includes("poke")) return "전투 시작 전 체력 우위를 쌓아 상대가 억지로 들어오게 만들어야 합니다.";
+  return "팀의 메인 딜 구간에 맞춰 자신의 강점 구간을 정확히 열어 주는 운영이 중요합니다.";
+}
+
+function getAllySynergy(seed) {
+  if (seed.tags.includes("engage")) return "광역 딜 메이지, 후속 진입형 전사, 확정 CC 조합과 잘 맞습니다.";
+  if (seed.tags.includes("peel")) return "하이퍼캐리 원딜이나 성장형 메이지를 보조할 때 픽 가치가 가장 높습니다.";
+  if (seed.tags.includes("poke")) return "장판 스킬, 시야 장악 서포터, 추가 포킹 조합과 궁합이 좋습니다.";
+  if (seed.tags.includes("splitpush")) return "4명이 시간을 벌 수 있는 웨이브 클리어 조합이 있으면 강점이 극대화됩니다.";
+  return "아군 조합에서 비어 있는 역할을 메우며 안정적인 밸런스를 만드는 픽입니다.";
+}
+
+function getEnemyWarning(seed) {
+  if (!seed.tags.includes("mobility")) return "긴 사거리 견제와 강제 이니시에 먼저 맞지 않도록 시야와 거리 관리가 중요합니다.";
+  if (seed.tags.includes("burst")) return "스톱워치류 인챈트와 확정 CC를 가진 상대 앞에서는 첫 진입 각을 서두르면 안 됩니다.";
+  if (seed.tags.includes("scaling")) return "초중반 스노우볼 조합에게 템포를 빼앗기지 않도록 라인 손실을 줄여야 합니다.";
+  return "핵심 스킬 교환과 오브젝트 전 시야 차이에서 손해 보지 않는 것이 중요합니다.";
+}
+
+function getObjectivePlan(seed) {
+  if (seed.tags.includes("poke") || seed.tags.includes("zone")) return "오브젝트보다 먼저 자리를 잡고 진입 경로를 좁히는 식으로 운영해야 강점이 살아납니다.";
+  if (seed.tags.includes("engage")) return "시야를 먼저 확보한 뒤 상대가 좁은 길을 지날 때 한 번에 교전을 여는 것이 좋습니다.";
+  if (seed.tags.includes("splitpush")) return "오브젝트 시간 전 사이드를 밀어 상대 합류 타이밍을 꼬아 두는 움직임이 중요합니다.";
+  return "정면 전투를 열기 전에 먼저 라인 상태와 시야 위치를 유리하게 맞춰 두세요.";
+}
+
+function normalizeChampion(seed) {
+  const profile = archetypeProfiles[seed.archetype];
+  const tags = Array.from(new Set([...profile.baseTags, ...seed.tags, normalizeDamageTag(seed.damageType)]));
+  return {
+    ...seed,
+    displayName: seed.name,
+    image: assetPath("champions", seed.name, "jpg"),
+    tags,
+    profileLabel: profile.label,
+    archetypeSummary: profile.summary,
+    coreItems: [...profile.coreItems],
+    situationalItems: [...profile.situationalItems],
+    boots: [...profile.boots],
+    enchants: [...profile.enchants],
+    strengths: getStrengths(tags),
+    weaknesses: getWeaknesses(tags),
+    laneTip: getLaneTip(seed),
+    teamfightTip: getTeamfightTip(seed),
+    powerSpike: getPowerSpike(seed),
+    winCondition: getWinCondition(seed),
+    allySynergy: getAllySynergy(seed),
+    enemyWarning: getEnemyWarning(seed),
+    objectivePlan: getObjectivePlan(seed),
+    buildSummary: `${profile.coreItems.slice(0, 3).join(" -> ")}를 중심으로 맞추고, 상황에 따라 ${profile.situationalItems.slice(0, 2).join(" / ")} 쪽으로 분기합니다.`,
+    draftValue: `${profile.summary} 역할을 더해 주는 픽입니다.`,
+    flavor: `${seed.name}는 ${formatLaneList(seed.lanes)}에서 주로 기용되는 ${profile.label} 계열 챔피언입니다.`,
+    tmi: `${seed.name}의 키워드는 ${tags.filter((tag) => tagLabels[tag]).slice(0, 3).map((tag) => tagLabels[tag]).join(", ")}입니다.`,
+    runes: getRunesForArchetype(seed.archetype),
+    spells: getSpellsForChampion(seed),
+  };
+}
+
+function normalizeItem(name) {
+  return {
+    name,
+    displayName: name,
+    image: assetPath("items", name, "png"),
+    ...(itemData[name] || { category: "Etc", summary: "상황 대응용 선택지", tags: [] }),
+  };
+}
 
 const allReferencedItems = new Set([
   ...Object.keys(itemData),
@@ -245,82 +397,7 @@ const allReferencedItems = new Set([
   ]),
 ]);
 
-function normalizeDamageTag(damageType) {
-  if (damageType === 'AP') return 'magic';
-  if (damageType === 'AD') return 'physical';
-  return 'mixed';
-}
-
-function assetPath(folder, baseName, extension) {
-  return .//.;
-}
-
-function normalizeChampion(seed) {
-  const profile = archetypeProfiles[seed.archetype];
-  const combinedTags = Array.from(new Set([...profile.baseTags, ...seed.tags, normalizeDamageTag(seed.damageType)]));
-  return {
-    ...seed,
-    displayName: seed.name,
-    image: assetPath('champions', seed.name, 'jpg'),
-    tags: combinedTags,
-    profileLabel: profile.label,
-    coreItems: profile.coreItems,
-    situationalItems: profile.situationalItems,
-    boots: profile.boots,
-    enchants: profile.enchants,
-    strengths: profile.strengths,
-    weaknesses: profile.weaknesses,
-    laneTip: profile.laneTip,
-    teamfightTip: profile.teamfightTip,
-    runes: getRunesForArchetype(seed.archetype),
-    spells: getSpellsForChampion(seed),
-    flavor: ${seed.name}는  성향이 뚜렷한 챔피언으로, 에서 존재감을 드러냅니다.,
-    tmi: ${seed.name}는 진입 타이밍과 조합 이해도에 따라 체감 성능이 크게 달라지는 챔피언입니다.,
-  };
-}
-
-function normalizeItem(name) {
-  return {
-    name,
-    displayName: name,
-    image: assetPath('items', name, 'png'),
-    ...(itemData[name] || { category: 'Etc', summary: '상황에 따라 선택할 수 있는 아이템입니다.' }),
-  };
-}
-
-function getRunesForArchetype(archetype) {
-  const map = {
-    juggernaut: ['정복자', '잔혹', '최후의 일격', '불굴'],
-    diver: ['정복자', '승전보', '거인 사냥꾼', '전략가'],
-    warden: ['여진', '약점 노출', '충성심', '개척자'],
-    guardian: ['여진', '약점 노출', '뼈 방패', '개척자'],
-    assassin: ['감전', '돌발 일격', '사냥의 증표', '천상의 몸놀림'],
-    burstMage: ['감전', '약점 노출', '최후의 일격', '마나순환 팔찌'],
-    battlemage: ['정복자', '침착', '거인 사냥꾼', '마나순환 팔찌'],
-    artillery: ['에어리', '약점 노출', '사냥의 증표', '마나순환 팔찌'],
-    marksman: ['치명적 속도', '잔혹', '거인 사냥꾼', '흡혈의 맛'],
-    utilityMarksman: ['치명적 속도', '약점 노출', '거인 사냥꾼', '영감'],
-    pokeMarksman: ['정복자', '잔혹', '거인 사냥꾼', '영감'],
-    hypercarry: ['치명적 속도', '잔혹', '거인 사냥꾼', '흡혈의 맛'],
-    skirmisher: ['정복자', '승전보', '최후의 일격', '천상의 몸놀림'],
-    skirmishMarksman: ['정복자', '잔혹', '거인 사냥꾼', '흡혈의 맛'],
-    enchanter: ['소환: 에어리', '약점 노출', '충성심', '마나순환 팔찌'],
-    catcher: ['빙결 강화', '약점 노출', '충성심', '개척자'],
-    specialist: ['에어리', '약점 노출', '거인 사냥꾼', '영감'],
-    marksmanAssassin: ['감전', '잔혹', '사냥의 증표', '천상의 몸놀림'],
-    marksmanFighter: ['정복자', '승전보', '최후의 일격', '흡혈의 맛'],
-  };
-  return map[archetype] || ['정복자', '잔혹', '거인 사냥꾼', '영감'];
-}
-
-function getSpellsForChampion(seed) {
-  if (seed.lanes.includes('Jungle')) return ['강타', '점멸'];
-  if (seed.roles.includes('Support')) return ['점멸', '점화'];
-  if (seed.tags.includes('burst')) return ['점멸', '점화'];
-  return ['점멸', '보호막'];
-}
-
-const champions = championSeedData.map(normalizeChampion).sort((a, b) => a.displayName.localeCompare(b.displayName));
+const champions = championSeedData.map(normalizeChampion).sort((a, b) => a.displayName.localeCompare(b.displayName, "en"));
 const championMap = Object.fromEntries(champions.map((champion) => [champion.displayName, champion]));
 const itemMap = Object.fromEntries(Array.from(allReferencedItems).map((name) => [name, normalizeItem(name)]));
 
@@ -331,5 +408,6 @@ window.WildriftData = {
   laneLabels,
   roleLabels,
   difficultyLabels,
+  tagLabels,
   recommendationRules,
 };

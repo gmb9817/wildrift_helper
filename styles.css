@@ -634,10 +634,19 @@ select option {
   margin: 0 0 8px;
 }
 
+.profile-block p + p,
+.stack-row p + p {
+  margin-top: 8px;
+}
+
 .profile-block ul {
   margin: 0;
   padding-left: 18px;
   color: var(--muted);
+}
+
+.profile-block li strong {
+  color: var(--text);
 }
 
 .profile-block li + li {
