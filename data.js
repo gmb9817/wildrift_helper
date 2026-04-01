@@ -330,11 +330,34 @@ function getRunesForArchetype(archetype) {
   return map[archetype] || ["정복자", "잔혹", "거인 사냥꾼", "영감"];
 }
 
-function getSpellsForChampion(seed) {
-  if (seed.lanes.includes("Jungle")) return ["강타", "점멸"];
-  if (seed.roles.includes("Support")) return ["점멸", "점화"];
+function getRunesForChampion(seed, lane = seed.lanes[0]) {
+  if (lane === "Support") {
+    if (seed.tags.includes("engage") || seed.tags.includes("pick")) return ["여진", "약점 노출", "충성심", "개척자"];
+    return ["소환: 에어리", "약점 노출", "충성심", "마나순환 팔찌"];
+  }
+  if (lane === "Jungle" && (seed.tags.includes("burst") || seed.tags.includes("pick"))) {
+    return ["감전", "돌발 일격", "사냥의 증표", "전략가"];
+  }
+  if (lane === "Baron" && seed.tags.includes("splitpush")) {
+    return ["정복자", "승전보", "최후의 일격", "천상의 몸놀림"];
+  }
+  return getRunesForArchetype(seed.archetype);
+}
+
+function getSpellsForChampion(seed, lane = seed.lanes[0]) {
+  if (lane === "Jungle") return ["강타", "점멸"];
+  if (lane === "Support") return seed.tags.includes("engage") || seed.tags.includes("pick") ? ["점멸", "점화"] : ["점멸", "탈진"];
+  if (lane === "Dragon") return seed.tags.includes("burst") || seed.tags.includes("mobility") ? ["점멸", "보호막"] : ["점멸", "회복"];
+  if (lane === "Baron") return seed.tags.includes("frontline") || seed.tags.includes("sustain") ? ["점멸", "유체화"] : ["점멸", "점화"];
   if (seed.tags.includes("burst") || seed.tags.includes("pick")) return ["점멸", "점화"];
   return ["점멸", "보호막"];
+}
+
+function getLoadoutForChampion(champion, lane = champion.lanes[0]) {
+  return {
+    runes: getRunesForChampion(champion, lane),
+    spells: getSpellsForChampion(champion, lane),
+  };
 }
 
 function getStrengths(tags) {
@@ -457,6 +480,7 @@ function normalizeChampion(seed) {
   const profile = archetypeProfiles[seed.archetype];
   const tags = Array.from(new Set([...profile.baseTags, ...seed.tags, normalizeDamageTag(seed.damageType)]));
   const searchText = getChampionSearchText(seed, profile, tags);
+  const primaryLane = seed.lanes[0];
   return {
     ...seed,
     displayName: seed.name,
@@ -489,8 +513,8 @@ function normalizeChampion(seed) {
     earlyGamePlan: getPhasePlan(seed, tags, "early"),
     midGamePlan: getPhasePlan(seed, tags, "mid"),
     lateGamePlan: getPhasePlan(seed, tags, "late"),
-    runes: getRunesForArchetype(seed.archetype),
-    spells: getSpellsForChampion(seed),
+    runes: getRunesForChampion(seed, primaryLane),
+    spells: getSpellsForChampion(seed, primaryLane),
   };
 }
 
@@ -526,4 +550,5 @@ window.WildriftData = {
   difficultyLabels,
   tagLabels,
   recommendationRules,
+  getLoadoutForChampion,
 };

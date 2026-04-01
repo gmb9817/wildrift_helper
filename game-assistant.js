@@ -9,6 +9,7 @@ const {
   itemMap,
   laneLabels,
   recommendationRules,
+  getLoadoutForChampion,
 } = window.WildriftData;
 
 const lanes = ["Baron", "Jungle", "Mid", "Dragon", "Support"];
@@ -337,6 +338,7 @@ function renderDraftRecommendations() {
         </div>
         <div class="pill-row">${entry.reasons.map((reason) => `<span class="meta-pill">${reason}</span>`).join("")}</div>
         <div class="pill-row">
+          <span class="meta-pill">기준 라인: ${laneLabels[entry.lane]}</span>
           <span class="meta-pill">코어: ${entry.champion.coreItems.slice(0, 2).join(" / ")}</span>
           <span class="meta-pill">전성기: ${summarizePowerSpike(entry.champion.powerSpike)}</span>
         </div>
@@ -350,8 +352,8 @@ function renderDraftRecommendations() {
         </div>
         <div class="stack-row">
           <strong>권장 룬 / 스펠</strong>
-          <p>${entry.champion.runes.join(" · ")}</p>
-          <p>${entry.champion.spells.join(" + ")}</p>
+          <p>${entry.runes.join(" · ")}</p>
+          <p>${entry.spells.join(" + ")}</p>
         </div>
         ${canApplyRecommendation ? `<span class="meta-pill">클릭해서 현재 우리 팀 슬롯에 적용</span>` : `<span class="meta-pill">적 팀 슬롯 편집 중일 때는 추천을 바로 적용하지 않습니다.</span>`}
       </div>
@@ -379,13 +381,14 @@ function getDraftRecommendations() {
   const selected = new Set([...allies, ...enemies].map((champion) => champion.displayName));
   const allyStats = summarizeTeam(allies);
   const enemyStats = summarizeTeam(enemies);
-  const occupiedLanes = new Set(state.allySlots.filter((slot) => slot.champion).map((slot) => slot.lane));
-  const missingLane = lanes.find((lane) => !occupiedLanes.has(lane));
   const targetLane = getTargetRecommendationLane();
 
   return champions
     .filter((champion) => !selected.has(champion.displayName))
+    .filter((champion) => !targetLane || champion.lanes.includes(targetLane))
     .map((champion) => {
+      const loadoutLane = targetLane || champion.lanes[0];
+      const loadout = getLoadoutForChampion(champion, loadoutLane);
       let score = 50;
       const reasons = [];
 
@@ -395,12 +398,7 @@ function getDraftRecommendations() {
           reasons.push(rule.text);
         }
       });
-      if (targetLane && champion.lanes.includes(targetLane)) {
-        score += 16;
-        reasons.push(`${laneLabels[targetLane]} 기준 픽`);
-      } else if (targetLane && state.activeTeam === "ally") {
-        score -= 8;
-      }
+      if (targetLane) { score += 12; reasons.push(`${laneLabels[targetLane]} 기준 픽`); }
       if (allyStats.frontline === 0 && champion.tags.includes("frontline")) { score += 14; reasons.push("앞라인 보강"); }
       if (allyStats.engage === 0 && champion.tags.includes("engage")) { score += 12; reasons.push("이니시 보강"); }
       if (allyStats.peel === 0 && champion.tags.includes("peel")) { score += 10; reasons.push("캐리 보호 가능"); }
@@ -413,15 +411,17 @@ function getDraftRecommendations() {
       if ((enemyStats.tagCounts.mobility || 0) >= 2 && champion.tags.includes("antiDash")) { score += 10; reasons.push("대시 제어 가능"); }
       if (allyStats.frontline > 0 && champion.tags.includes("scaling")) { score += 4; reasons.push("후반 캐리 각"); }
       if (allyStats.engage > 0 && champion.tags.includes("burst")) { score += 5; reasons.push("후속 폭딜 연계"); }
-      if (missingLane && champion.lanes.includes(missingLane)) { score += 10; reasons.push(`${laneLabels[missingLane]} 소화 가능`); }
       if (!reasons.length) reasons.push("범용성 높은 픽");
 
       return {
         champion,
+        lane: loadoutLane,
         score,
         reasons: uniqueTake(reasons, 4),
         pitch: explainDraftPick(champion, allyStats, enemyStats, targetLane),
-        plan: `${champion.winCondition} ${champion.allySynergy}`,
+        plan: `${laneLabels[loadoutLane]} 기준으로 ${champion.winCondition} ${champion.allySynergy}`,
+        runes: loadout.runes,
+        spells: loadout.spells,
       };
     })
     .sort((a, b) => b.score - a.score)
